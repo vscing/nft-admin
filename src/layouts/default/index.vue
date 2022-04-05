@@ -29,6 +29,7 @@
   import { useLockPage } from '/@/hooks/web/useLockPage';
 
   import { useAppInject } from '/@/hooks/web/useAppInject';
+import { useRouter } from 'vue-router';
 
   export default defineComponent({
     name: 'DefaultLayout',
@@ -46,6 +47,8 @@
       const { getIsMobile } = useAppInject();
       const { getShowFullHeaderRef } = useHeaderSetting();
       const { getShowSidebar, getIsMixSidebar, getShowMenu } = useMenuSetting();
+
+      const router = useRouter();
 
       // Create a lock screen monitor
       const lockEvents = useLockPage();

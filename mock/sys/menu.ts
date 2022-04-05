@@ -26,18 +26,6 @@ const dashboardRoute = {
         icon: 'bx:bx-home',
       },
     },
-    {
-      path: 'workbench',
-      name: 'Workbench',
-      component: '/dashboard/workbench/index',
-      meta: {
-        hideMenu: true,
-        hideBreadcrumb: true,
-        title: 'routes.dashboard.workbench',
-        currentActiveMenu: '/dashboard',
-        icon: 'bx:bx-home',
-      },
-    },
   ],
 };
 

@@ -10,10 +10,14 @@ const modules = import.meta.globEager('./modules/**/*.ts');
 
 const routeModuleList: AppRouteModule[] = [];
 
+const arr = ['Dashboard', 'Member', 'System', 'Content', 'Goods', 'Order'];
+
 Object.keys(modules).forEach((key) => {
   const mod = modules[key].default || {};
-  const modList = Array.isArray(mod) ? [...mod] : [mod];
-  routeModuleList.push(...modList);
+  if(arr.indexOf(mod.name) !== -1 || import.meta.env.DEV) {
+    const modList = Array.isArray(mod) ? [...mod] : [mod];
+    routeModuleList.push(...modList);
+  }
 });
 
 export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];

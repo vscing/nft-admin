@@ -161,6 +161,8 @@ export default {
   },
   system: {
     config: '基本配置',
+    user: '用户管理',
+    user_detail: '用户详情',
     moduleName: '系统管理',
     account: '账号管理',
     account_detail: '账号详情',
