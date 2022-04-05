@@ -66,7 +66,7 @@ const content: AppRouteModule = {
         title: '友情链接',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/content/member/index.vue'),
+      component: () => import('/@/views/sys/content/banner/index.vue'),
     },
     {
       path: 'banner',
@@ -75,7 +75,7 @@ const content: AppRouteModule = {
         title: '留言管理',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/content/member/index.vue'),
+      component: () => import('/@/views/sys/content/banner/index.vue'),
     },
     {
       path: 'banner',
@@ -84,7 +84,7 @@ const content: AppRouteModule = {
         title: '导航管理',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/content/member/index.vue'),
+      component: () => import('/@/views/sys/content/banner/index.vue'),
     },
   ],
 };
