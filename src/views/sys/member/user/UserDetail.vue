@@ -54,7 +54,7 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { useTabs } from '/@/hooks/web/useTabs';
   import { Card, Tabs, Descriptions } from 'ant-design-vue';
-  import { getUserInfo } from '/@/api/sys/system';
+  import { getUserInfo } from '/@/api/sys/member';
   import { columnToDateTime } from '/@/utils/dateUtil';
   
   const route = useRoute();
