@@ -1,20 +1,20 @@
 export default {
   dev: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/sys/': {
+      target: 'https://api.ysxqbjz.com',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
   },
   test: {
-    '/api/': {
+    '/sys/': {
       target: 'https://preview.pro.ant.design',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
   },
   pre: {
-    '/api/': {
+    '/sys/': {
       target: 'your pre url',
       changeOrigin: true,
       pathRewrite: { '^': '' },

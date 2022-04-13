@@ -12,7 +12,7 @@ const settings: Settings = {
   menu: {
     locale: true,
   },
-  title: 'React Admin',
+  title: '食艺术管理后台',
   iconfontUrl: '',
 };
 

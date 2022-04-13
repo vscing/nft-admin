@@ -119,15 +119,15 @@ const errorHandler = (error: ResponseError) => {
 
 export const request: RequestConfig = {
   errorHandler,
-  errorConfig: {
-    adaptor: (resData) => {
-      return {
-        ...resData,
-        success: resData.code === 200,
-        errorMessage: resData.message,
-      }
-    }
-  },
+  // errorConfig: {
+  //   adaptor: (resData) => {
+  //     return {
+  //       ...resData,
+  //       success: resData.code === 200,
+  //       errorMessage: resData.message,
+  //     }
+  //   }
+  // },
   requestInterceptors: [
     (url, options) => {
       const token = getCookie();

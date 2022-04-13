@@ -4,6 +4,7 @@ import defaultSettings from './default-settings';
 import proxy from './proxy';
 
 const { REACT_APP_ENV } = process.env;
+console.log(REACT_APP_ENV)
 
 export default defineConfig({
   hash: true,
@@ -39,5 +40,5 @@ export default defineConfig({
   },
   cssModulesTypescriptLoader: {},
   ignoreMomentLocale: true,
-  // proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: proxy[REACT_APP_ENV || 'dev'],
 })

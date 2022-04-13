@@ -1,453 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Form, Modal, Row, Col, Input, Button, Table, Pagination } from "antd";
+import { Form, Modal, Row, Col, Input, Button, Table, Select, DatePicker } from "antd";
 import { DeleteOutlined, FormOutlined, DiffOutlined } from "@ant-design/icons";
+import { PageContainer } from "@ant-design/pro-layout";
+import { fetchSort, searchSort, addSort } from '@/services/sortmanager';
 import "./index.less";
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const { Column } = Table;
+const { Option } = Select;
 const Sortmanager: React.FC<any> = () => {
   const [form] = Form.useForm();
   const [pageNo, setPageNo] = useState(1); //页数
   const [pageSize, setPageSize] = useState(10); //每页多少条数据
-  const [totalCount, setTotalCount] = useState(54); //总的数
+  const [totalCount, setTotalCount] = useState(0); //总的数
   //添加弹窗
   const [modal, setModal] = useState<boolean>(false);
   const [edit, setEdit] = useState<boolean>(false);
   const [del, setDel] = useState<boolean>(false);
-  const data = [
-    {
-      key: "1",
-      sortId: 1,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "2",
-      sortId: 2,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "3",
-      sortId: 3,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "4",
-      sortId: 4,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "5",
-      sortId: 5,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "6",
-      sortId: 6,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "7",
-      sortId: 7,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "8",
-      sortId: 8,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "9",
-      sortId: 9,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "10",
-      sortId: 10,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "11",
-      sortId: 11,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "12",
-      sortId: 12,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "13",
-      sortId: 13,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "14",
-      sortId: 14,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "15",
-      sortId: 15,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "16",
-      sortId: 16,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "17",
-      sortId: 17,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "18",
-      sortId: 18,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "19",
-      sortId: 19,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "20",
-      sortId: 20,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "21",
-      sortId: 21,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "22",
-      sortId: 22,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "23",
-      sortId: 23,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "24",
-      sortId: 24,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "25",
-      sortId: 25,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "26",
-      sortId: 26,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "27",
-      sortId: 27,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "28",
-      sortId: 28,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "29",
-      sortId: 29,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "30",
-      sortId: 30,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "31",
-      sortId: 31,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "32",
-      sortId: 32,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "33",
-      sortId: 33,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "34",
-      sortId: 34,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "35",
-      sortId: 35,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "36",
-      sortId: 36,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "37",
-      sortId: 37,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "38",
-      sortId: 38,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "39",
-      sortId: 39,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "40",
-      sortId: 40,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "41",
-      sortId: 41,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "42",
-      sortId: 42,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "43",
-      sortId: 43,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "44",
-      sortId: 44,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "45",
-      sortId: 45,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "46",
-      sortId: 46,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "47",
-      sortId: 47,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "48",
-      sortId: 48,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "49",
-      sortId: 49,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "50",
-      sortId: 50,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "51",
-      sortId: 51,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-    {
-      key: "52",
-      sortId: 52,
-      sortName: "最新活动",
-      status: "显示",
-      sort: "999",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "53",
-      sortId: 53,
-      sortName: "客服帮助",
-      status: "显示",
-      sort: "998",
-      createTime: "2022-04-04 23:34:18",
-    },
-    {
-      key: "54",
-      sortId: 54,
-      sortName: "合成策略",
-      status: "显示",
-      sort: "997",
-      createTime: "2022-04-05 14:36:28",
-    },
-  ];
+  const [sortList, setSortList] = useState([]);//存储接口数据
+
   const onPageChange = (pageNumber: number) => {
     setPageNo(pageNumber);
   };
@@ -457,38 +29,97 @@ const Sortmanager: React.FC<any> = () => {
 
   useEffect(() => {
     setPageNo(1);
-  }, [pageSize]);
+    fetchSort().then(res => {
+      if(res.code == 0){
+        setSortList(res.result.tree);
+      }
+    }) 
+  }, []);
 
   //添加数据
-  const onSubmit = () => {}
+  const onAddSubmit = (values: any) => {
+    form.validateFields().then((values) => {
+          let created_at = values.created_at.format('YYYY-MM-DD HH:mm:ss');
+          let name = values.name;
+          let sort = values.sort;
+          let state = values.state;
+
+          let param = {
+            created_at,
+            name,
+            sort,
+            state
+          }
+          addSort && addSort(param)
+          form.resetFields();
+          setModal(false);
+    }).catch((errInfo) => {
+          console.log('校验失败:', errInfo)
+    })
+  }
+
+  //修改数据
+  const onEditSubmit = () => {
+
+  }
+
+  //删除数据
+  const onDeleSubmit = () => {
+
+  }
+
   ///关闭弹窗
   const onCancel = () => {
+    form.resetFields();
     setModal(false)
     setEdit(false)
     setDel(false)
   }
 
+  //删除数据
+  const deleteData = (id: any) => {
+      setDel(true);
+  }
+
+  const editData = (id: any) => {
+      setEdit(true)
+  }
+
+  const showTotal = (total: number) => {
+    return `共${total}条`;
+  }
+  
+  const rangePickerChange = (e: any) => { }
+
+  //查询表单数据
+  const onFinish = (values: any) => {
+      form.validateFields().then((values) => {
+            searchSort && searchSort(values)
+      }).catch((errInfo) => {
+            console.log('查询失败:', errInfo)
+      })
+  }
+
+  //表单校验
+  // const validator=(rule: any, value: any, $callback: any) => {
+  //     if (rule.field === 'name') {
+  //         if (value.length < 1)$callback('请输入订单预约时间');
+  //     }
+  //     $callback();
+  // }
+
   return (
     <div className="sortManage">
-      <Form form={form} layout="inline">
+      <PageContainer></PageContainer>
+      <Form form={form} layout="inline" onFinish={onFinish}>
         <Row>
           <Col span={8}>
-            <FormItem name="sortId" label="分类ID">
+            <FormItem name="name" label="分类名称">
               <Input placeholder="请输入" />
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem name="sortName" label="分类名称">
-              <Input placeholder="请输入" />
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem name="status" label="状态">
-              <Input placeholder="请输入" />
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem name="createTime" label="创建时间">
+            <FormItem name="state" label="状态">
               <Input placeholder="请输入" />
             </FormItem>
           </Col>
@@ -514,29 +145,39 @@ const Sortmanager: React.FC<any> = () => {
       <div className="sortManage-table">
         <Table
           bordered
-          dataSource={data}
+          dataSource={sortList}
           pagination={{
+            showQuickJumper: true,
             current: pageNo,
             pageSize: pageSize,
             total: totalCount,
+            showTotal: showTotal,
             onChange: onPageChange,
             onShowSizeChange: pageSizeChange,
           }}
         >
-          <Column title="ID" dataIndex="sortId" key="sortId" align="center" />
+          <Column title="ID" dataIndex="id" key="id" align="center" />
           <Column
             title="分类名称"
-            dataIndex="sortName"
-            key="sortName"
+            dataIndex="name"
+            key="name"
             align="center"
           />
-          <Column title="状态" dataIndex="status" key="status" align="center" />
+          <Column title="状态" dataIndex="state" key="state" align="center" />
           <Column title="排序" dataIndex="sort" key="sort" align="center" />
           <Column
             title="创建时间"
-            dataIndex="createTime"
-            key="createTime"
+            dataIndex="created_at"
+            key="created_at"
             align="center"
+            render={(text) => {
+              if(text){
+                  return (
+                    <span>{moment(text.created_at).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  );
+              }
+              return <div/>
+            }}
           />
           <Column
             title="操作"
@@ -549,10 +190,10 @@ const Sortmanager: React.FC<any> = () => {
                     <DiffOutlined onClick={() => setModal(true)} />
                   </div>
                   <div className="button">
-                    <DeleteOutlined onClick={() => setDel(true)} />
+                    <DeleteOutlined onClick={(text) => { deleteData(text) }} />
                   </div>
                   <div className="button">
-                    <FormOutlined onClick={() => setEdit(true)} />
+                    <FormOutlined onClick={(text) => { editData(text) }} />
                   </div>
                 </div>
               );
@@ -569,52 +210,98 @@ const Sortmanager: React.FC<any> = () => {
         /> */}
       </div>
       <div className="addModal">
-        <Modal title="新增分类·" centered visible={modal} onOk={onSubmit} onCancel={onCancel}>
-          <Form>
+        <Modal title="新增分类" centered visible={modal} onOk={onAddSubmit} onCancel={onCancel}>
+          <Form form={form}>
             <Row>
-              <FormItem name="sortName" label="分类名称" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
+              <FormItem 
+                    name="name" 
+                    label="分类名称" 
+                    style={{ width: "100%" }}
+                    rules={
+                      [
+                        {
+                          required:true,
+                          message:'请输入分类名称'
+                        }
+                      ]
+                    } 
+              >
+                <Input placeholder="请输入分类名称" />
               </FormItem>
             </Row>
             <Row>
-              <FormItem name="paraentSort" label="父级分类" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
+                <Col span={8}>
+                  <FormItem labelAlign={"left"} name="state" label="状态" rules={[{ required: true, message: '请选择状态!' }]}>
+                          <Select defaultValue="全部">
+                                <Option value=''>全部</Option>
+                                <Option key={0} value={0}>0</Option>
+                                <Option key={1} value={1}>1</Option>
+                          </Select>
+                  </FormItem>
+                </Col>
+            </Row>
+            <Row>
+              <FormItem name="sort" label="排序" style={{ width: "100%" }} rules={[{ required: true, message: '请输入排序!' }]}>
+                <Input placeholder="请输入排序" />
               </FormItem>
             </Row>
             <Row>
-              <FormItem name="sortLimit" label="分类排序" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
-              </FormItem>
-            </Row>
-            <Row>
-              <FormItem name="status" label="分类状态" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
+              <FormItem name="created_at" label="创建时间" style={{ width: "100%" }} rules={[{ required: true, message: '请输入创建时间!' }]}>
+                              <DatePicker
+                                  format='YYYY-MM-DD HH:mm:ss'
+                                  showTime={false}
+                                  onChange={rangePickerChange}
+                                  allowClear={false}
+                              />
               </FormItem>
             </Row>
           </Form>
         </Modal>
       </div>
       <div className="editModal">
-        <Modal title="修改分类·" centered visible={edit} onOk={onSubmit} onCancel={onCancel}>
-          <Form>
+        <Modal title="修改分类" centered visible={edit} onOk={onEditSubmit} onCancel={onCancel}>
+        <Form form={form}>
             <Row>
-              <FormItem name="sortName" label="分类名称" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
+              <FormItem 
+                    name="name" 
+                    label="分类名称" 
+                    style={{ width: "100%" }}
+                    rules={
+                      [
+                        {
+                          required:true,
+                          message:'请输入分类名称'
+                        }
+                      ]
+                    } 
+              >
+                <Input placeholder="请输入分类名称" />
               </FormItem>
             </Row>
             <Row>
-              <FormItem name="paraentSort" label="父级分类" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
+                <Col span={8}>
+                  <FormItem labelAlign={"left"} name="state" label="状态" rules={[{ required: true, message: '请选择状态!' }]}>
+                          <Select defaultValue="全部">
+                                <Option value=''>全部</Option>
+                                <Option key={0} value={0}>0</Option>
+                                <Option key={1} value={1}>1</Option>
+                          </Select>
+                  </FormItem>
+                </Col>
+            </Row>
+            <Row>
+              <FormItem name="sort" label="排序" style={{ width: "100%" }} rules={[{ required: true, message: '请输入排序!' }]}>
+                <Input placeholder="请输入排序" />
               </FormItem>
             </Row>
             <Row>
-              <FormItem name="sortLimit" label="分类排序" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
-              </FormItem>
-            </Row>
-            <Row>
-              <FormItem name="status" label="分类状态" style={{ width: "100%" }}>
-                <Input placeholder="请输入" />
+              <FormItem name="created_at" label="创建时间" style={{ width: "100%" }} rules={[{ required: true, message: '请输入创建时间!' }]}>
+                              <DatePicker
+                                  format='YYYY-MM-DD HH:mm:ss'
+                                  showTime={false}
+                                  onChange={rangePickerChange}
+                                  allowClear={false}
+                              />
               </FormItem>
             </Row>
           </Form>
@@ -624,7 +311,7 @@ const Sortmanager: React.FC<any> = () => {
         <Modal
             title="删除"
             visible={del}
-            onOk={onSubmit}
+            onOk={onDeleSubmit}
             onCancel={onCancel}
         >
             <p>确定删除？</p>
