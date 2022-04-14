@@ -7,6 +7,7 @@ const { REACT_APP_ENV } = process.env;
 console.log(REACT_APP_ENV)
 
 export default defineConfig({
+  base: '/sys2/',
   hash: true,
   routes,
   targets: {
