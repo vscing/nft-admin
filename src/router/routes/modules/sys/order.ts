@@ -7,7 +7,7 @@ const order: AppRouteModule = {
   path: '/order',
   name: 'Order',
   component: LAYOUT,
-  redirect: '/order/user',
+  redirect: '/order/sell',
   meta: {
     orderNo: 4,
     icon: 'ant-design:account-book-outlined',
@@ -15,27 +15,69 @@ const order: AppRouteModule = {
   },
   children: [
     {
-      path: 'user',
-      name: 'UserManagement1',
+      path: 'sell',
+      name: 'OrderSell',
       meta: {
-        title: '会员列表',
+        title: '发售订单',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/member/user/index.vue'),
+      component: () => import('/@/views/sys/order/sell/index.vue'),
     },
     {
-      path: 'user_detail/:id',
-      name: 'UserDetail1',
+      path: 'sell_detail/:id',
+      name: 'OrderSellDetail',
       meta: {
         hideMenu: true,
-        title: '会员详情',
+        title: '发售订单详情',
         ignoreKeepAlive: true,
         showMenu: false,
-        currentActiveMenu: '/system/user',
+        currentActiveMenu: '/order/sell',
       },
-      component: () => import('/@/views/sys/member/user/UserDetail.vue'),
+      component: () => import('/@/views/sys/order/sell/Detail.vue'),
     },
-    
+    {
+      path: 'market',
+      name: 'OrderMarket',
+      meta: {
+        title: '市场订单',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/order/market/index.vue'),
+    },
+    {
+      path: 'market_detail/:id',
+      name: 'OrderMarketDetail',
+      meta: {
+        hideMenu: true,
+        title: '市场订单详情',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/order/market',
+      },
+      component: () => import('/@/views/sys/order/market/Detail.vue'),
+    },
+
+    {
+      path: 'compound',
+      name: 'OrderCompound',
+      meta: {
+        title: '合成订单',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/order/compound/index.vue'),
+    },
+    {
+      path: 'compound_detail/:id',
+      name: 'OrderCompoundDetail',
+      meta: {
+        hideMenu: true,
+        title: '合成订单详情',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/order/compound',
+      },
+      component: () => import('/@/views/sys/order/compound/Detail.vue'),
+    },
     
   ],
 };

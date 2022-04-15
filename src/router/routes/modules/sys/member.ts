@@ -34,6 +34,27 @@ const member: AppRouteModule = {
         currentActiveMenu: '/member/user',
       },
       component: () => import('/@/views/sys/member/user/UserDetail.vue'),
+    },
+    {
+      path: 'bill',
+      name: 'MemberBill',
+      meta: {
+        title: '用户账单',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/member/bill/index.vue'),
+    },
+    {
+      path: 'bill_detail/:id',
+      name: 'MemberBillDetail',
+      meta: {
+        hideMenu: true,
+        title: '账单详情',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/member/bill',
+      },
+      component: () => import('/@/views/sys/member/bill/Detail.vue'),
     }
   ],
 };

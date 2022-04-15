@@ -7,7 +7,7 @@ const goods: AppRouteModule = {
   path: '/goods',
   name: 'Goods',
   component: LAYOUT,
-  redirect: '/goods/list',
+  redirect: '/goods/category',
   meta: {
     orderNo: 3,
     icon: 'ant-design:shopping-outlined',
@@ -15,25 +15,101 @@ const goods: AppRouteModule = {
   },
   children: [
     {
-      path: 'list',
-      name: 'goodsList',
-      meta: {
-        title: '商品列表',
-        ignoreKeepAlive: false,
-      },
-      component: () => import('/@/views/sys/goods/list/index.vue'),
-    },
-    {
       path: 'category',
-      name: 'goodsCategory',
+      name: 'GoodsCategory',
       meta: {
         title: '商品分类',
         ignoreKeepAlive: false,
       },
       component: () => import('/@/views/sys/goods/category/index.vue'),
     },
-    
-    
+    {
+      path: 'sell',
+      name: 'GoodsSell',
+      meta: {
+        title: '发售商品',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/goods/sell/index.vue'),
+    },
+    {
+      path: 'sell_add/:id',
+      name: 'GoodsSellAdd',
+      meta: {
+        hideMenu: true,
+        title: '发售商品添加',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/sell',
+      },
+      component: () => import('/@/views/sys/goods/sell/Add.vue'),
+    },
+    {
+      path: 'sell_edit/:id',
+      name: 'GoodsSellEdit',
+      meta: {
+        hideMenu: true,
+        title: '发售商品编辑',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/sell',
+      },
+      component: () => import('/@/views/sys/goods/sell/Edit.vue'),
+    },
+    {
+      path: 'market',
+      name: 'GoodsMarket',
+      meta: {
+        title: '市场商品列表',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/goods/market/index.vue'),
+    },
+    {
+      path: 'market_detail/:id',
+      name: 'GoodsMarketDetail',
+      meta: {
+        hideMenu: true,
+        title: '市场商品详情',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/market',
+      },
+      component: () => import('/@/views/sys/goods/Market/Detail.vue'),
+    },
+    {
+      path: 'compound',
+      name: 'GoodsCompound',
+      meta: {
+        title: '合成规则',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/goods/compound/index.vue'),
+    },
+    {
+      path: 'compound_add/:id',
+      name: 'GoodsCompoundAdd',
+      meta: {
+        hideMenu: true,
+        title: '合成规则添加',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/compound',
+      },
+      component: () => import('/@/views/sys/goods/compound/Add.vue'),
+    },
+    {
+      path: 'sell_edit/:id',
+      name: 'GoodsCompoundEdit',
+      meta: {
+        hideMenu: true,
+        title: '合成规则编辑',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/compound',
+      },
+      component: () => import('/@/views/sys/goods/compound/Edit.vue'),
+    },
   ],
 };
 
