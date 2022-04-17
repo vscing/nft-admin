@@ -54,7 +54,6 @@ const dataSource = ref<any[]>([]);
 
 const [register, { expandAll, collapseAll, updateTableDataRecord }] = useTable({
   title: '分类管理',
-  rowKey: 'id',
   isTreeTable: true,
   columns: columns,
   showTableSetting: true,

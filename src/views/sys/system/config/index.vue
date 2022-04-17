@@ -4,6 +4,10 @@
       <TabPane v-for="item in tabsList" :key="item.id" :tab="item.name">
         <Form :model="formData" :label-col="labelCol" :wrapper-col="wrapperCol">
           <FormItem v-for="son in tabPaneList" :label="son.name">
+            <RadioGroup v-if="son.value_type == 'radio'" v-model:value="formData[son.code]">
+              <Radio :value="1">盲盒</Radio>
+              <Radio :value="2">抽奖</Radio>
+            </RadioGroup>
             <Input v-if="son.value_type == 'input'" v-model:value="formData[son.code]" />
             <Input.TextArea v-if="son.value_type == 'textarea'" v-model:value="formData[son.code]" :rows="5" />
             <Tinymce v-if="son.value_type == 'html'" v-model:value="formData[son.code]" @change="(value) => formData[son.code] = value"/>
@@ -13,6 +17,7 @@
               list-type="picture-card"
               :show-upload-list="false"
               :action="uploadUrl"
+              :headers="headers"
               :before-upload="beforeUpload"
               @change="(info) => handleChange(info, son.code)"
             >
@@ -35,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Tabs, TabPane, Form, FormItem, Input, Upload, Button } from 'ant-design-vue';
+  import { Tabs, TabPane, Form, FormItem, Input, Upload, Button, RadioGroup, Radio } from 'ant-design-vue';
   import { Tinymce } from '/@/components/Tinymce/index';
   import { LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue';
   import { PageWrapper } from '/@/components/Page';
@@ -43,6 +48,7 @@
   import { getConfigData, configSava } from '/@/api/sys/system';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useGlobSetting } from '/@/hooks/setting';
+  import { getToken } from '/@/utils/auth';
 
   const data = ref<any>([{id: ''}]);
   const activeKey = ref<string>('');
@@ -50,6 +56,10 @@
   const loading = ref<boolean>(false);
   const labelCol = { span: 4 };
   const wrapperCol = { span: 14 };
+  const token = getToken();
+  const headers = ref({
+    Authorization: `Bearer ${token}`
+  })
 
 
   const getConfig = async () => {

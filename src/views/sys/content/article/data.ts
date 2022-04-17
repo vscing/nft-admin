@@ -4,46 +4,38 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '用户名',
-    dataIndex: 'account',
+    title: 'ID',
+    dataIndex: 'id',
     width: 120,
   },
   {
-    title: '昵称',
-    dataIndex: 'nickname',
+    title: '标题',
+    dataIndex: 'title',
     width: 120,
   },
   {
-    title: '邮箱',
-    dataIndex: 'email',
+    title: '排序',
+    dataIndex: 'sort',
     width: 120,
+  },
+  {
+    title: '状态',
+    dataIndex: 'createTime',
+    width: 120,
+    slots: { customRender: 'state' },
   },
   {
     title: '创建时间',
     dataIndex: 'createTime',
     width: 180,
-  },
-  {
-    title: '角色',
-    dataIndex: 'role',
-    width: 200,
-  },
-  {
-    title: '备注',
-    dataIndex: 'remark',
+    slots: { customRender: 'created_at' },
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'account',
-    label: '用户名',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    field: 'nickname',
-    label: '昵称',
+    field: 'title',
+    label: '标题',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -83,17 +75,17 @@ export const accountFormSchema: FormSchema[] = [
     component: 'Upload',
     required: true,
   },
-  {
-    label: '角色',
-    field: 'role',
-    component: 'ApiSelect',
-    componentProps: {
-      api: getAllRoleList,
-      labelField: 'roleName',
-      valueField: 'roleValue',
-    },
-    required: true,
-  },
+  // {
+  //   label: '角色',
+  //   field: 'role',
+  //   component: 'ApiSelect',
+  //   componentProps: {
+  //     api: getAllRoleList,
+  //     labelField: 'roleName',
+  //     valueField: 'roleValue',
+  //   },
+  //   required: true,
+  // },
   
   {
     field: 'nickname',

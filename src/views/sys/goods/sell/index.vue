@@ -42,7 +42,7 @@ import { reactive } from 'vue';
 
 import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getBannerList } from '/@/api/sys/content';
+import { getGoodsList } from '/@/api/sys/goods';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -52,8 +52,8 @@ import { columnToDateTime } from '/@/utils/dateUtil';
 const go = useGo();
 const searchInfo = reactive<Recordable>({});
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
-  title: '轮播图列表',
-  api: getBannerList,
+  title: '预售产品列表',
+  api: getGoodsList,
   rowKey: 'id',
   columns,
   formConfig: {

@@ -4,12 +4,6 @@
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增账号</a-button>
       </template>
-      <template #img="{ record }">
-        <AntImage
-          :width="53"
-          :src="record.img"
-        />
-      </template>
       <template #state="{ record }">
         <span>{{ record.state ? '显示' : '隐藏' }}</span>
       </template>
@@ -40,9 +34,8 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
-import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getBannerList } from '/@/api/sys/content';
+import { getArticleList } from '/@/api/sys/content';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -52,8 +45,8 @@ import { columnToDateTime } from '/@/utils/dateUtil';
 const go = useGo();
 const searchInfo = reactive<Recordable>({});
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
-  title: '轮播图列表',
-  api: getBannerList,
+  title: '内容列表',
+  api: getArticleList,
   rowKey: 'id',
   columns,
   formConfig: {

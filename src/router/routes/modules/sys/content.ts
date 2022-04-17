@@ -60,31 +60,31 @@ const content: AppRouteModule = {
       component: () => import('/@/views/sys/content/banner/index.vue'),
     },
     {
-      path: 'banner',
-      name: 'bannerManagement',
+      path: 'link',
+      name: 'linkManagement',
       meta: {
         title: '友情链接',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/content/banner/index.vue'),
+      component: () => import('/@/views/sys/content/link/index.vue'),
     },
     {
-      path: 'banner',
-      name: 'bannerManagement',
+      path: 'message',
+      name: 'messageManagement',
       meta: {
         title: '留言管理',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/content/banner/index.vue'),
+      component: () => import('/@/views/sys/content/message/index.vue'),
     },
     {
-      path: 'banner',
-      name: 'bannerManagement',
+      path: 'navbar',
+      name: 'navbarManagement',
       meta: {
         title: '导航管理',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/content/banner/index.vue'),
+      component: () => import('/@/views/sys/content/navbar/index.vue'),
     },
   ],
 };

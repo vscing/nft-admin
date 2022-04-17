@@ -14,6 +14,13 @@ enum Api {
   updateArticleInfo = '/article/updateInfo',
   updateArticleSort = '/article/updateSort',
   delArticleInfo = '/article/delInfo',
+
+  getBannerList = '/banner/getList',
+  addBannerInfo = '/banner/addInfo',
+  getBannerInfo = '/banner/getInfo',
+  updateBannerInfo = '/banner/updateInfo',
+  updateBannerSort = '/banner/updateSort',
+  delBannerInfo = '/banner/delInfo',
   
 }
 
@@ -41,4 +48,17 @@ export const updateArticleInfo = (params: any) => defHttp.post<any>({ url: Api.u
 export const updateArticleSort = (id: number, sort: number) => defHttp.post<any>({ url: Api.updateArticleSort, params: { id, sort }});
 
 export const delArticleInfo = (id: number) => defHttp.delete<any>({ url: Api.delArticleInfo, params: {id} });
+
+
+export const getBannerList = (params: any) => defHttp.get<any>({ url: Api.getBannerList, params });
+
+export const addBannerInfo = (params: any) => defHttp.post<any>({ url: Api.addBannerInfo, params });
+
+export const getBannerInfo = (params: any) => defHttp.get<any>({ url: Api.getBannerInfo, params });
+
+export const updateBannerInfo = (params: any) => defHttp.post<any>({ url: Api.updateBannerInfo, params });
+
+export const updateBannerSort = (id: number, sort: number) => defHttp.post<any>({ url: Api.updateBannerSort, params: { id, sort }});
+
+export const delBannerInfo = (id: number) => defHttp.delete<any>({ url: Api.delBannerInfo, params: {id} });
 
