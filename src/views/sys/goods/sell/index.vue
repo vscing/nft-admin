@@ -2,13 +2,19 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增账号</a-button>
+        <a-button type="primary" @click="handleCreate">新增发售商品</a-button>
       </template>
       <template #img="{ record }">
         <AntImage
           :width="53"
           :src="record.img"
         />
+      </template>
+      <template #status="{ record }">
+        <span>{{ getStatusText(record.status)}}</span>
+      </template>
+      <template #presell_time="{ record }">
+        <span>{{ columnToDateTime(record.presell_time) }}</span>
       </template>
       <template #state="{ record }">
         <span>{{ record.state ? '显示' : '隐藏' }}</span>
@@ -76,8 +82,23 @@ const [registerTable, { reload, updateTableDataRecord }] = useTable({
   },
 });
 
+const getStatusText = (status) => {
+  let text = '';
+  if(status == 10) {
+    text = '待上架';
+  } else if(status == 20){
+    text = '预售中';
+  } else if(status == 30){
+    text = '售卖中';
+  } else if(status == 40){
+    text = '已售罄';
+  }
+  return text;  
+}
+
 const handleCreate = () => {
   console.log('handleCreate')
+  go('/goods/sell_add')
 }
 
 function handleEdit(record: Recordable) {

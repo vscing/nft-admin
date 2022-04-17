@@ -19,11 +19,6 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
-    title: '商品预售总数',
-    dataIndex: 'total_stock',
-    width: 120,
-  },
-  {
     title: '商品库存',
     dataIndex: 'stock',
     width: 120,
@@ -35,15 +30,20 @@ export const columns: BasicColumn[] = [
     slots: { customRender: 'presell_time' },
   },
   {
-    title: '排序',
-    dataIndex: 'sort',
-    width: 120,
-  },
-  {
     title: '状态',
     dataIndex: 'status',
     width: 120,
     slots: { customRender: 'status' },
+  },
+  {
+    title: '商品预售总数',
+    dataIndex: 'total_stock',
+    width: 120,
+  },
+  {
+    title: '排序',
+    dataIndex: 'sort',
+    width: 120,
   },
   {
     title: '创建时间',

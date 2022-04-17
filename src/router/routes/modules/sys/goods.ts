@@ -33,7 +33,7 @@ const goods: AppRouteModule = {
       component: () => import('/@/views/sys/goods/sell/index.vue'),
     },
     {
-      path: 'sell_add/:id',
+      path: 'sell_add',
       name: 'GoodsSellAdd',
       meta: {
         hideMenu: true,
@@ -75,7 +75,7 @@ const goods: AppRouteModule = {
         showMenu: false,
         currentActiveMenu: '/goods/market',
       },
-      component: () => import('/@/views/sys/goods/Market/Detail.vue'),
+      component: () => import('/@/views/sys/goods/market/Detail.vue'),
     },
     {
       path: 'compound',
