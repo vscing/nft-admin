@@ -18,7 +18,7 @@
       <FormItem label="商品价格" name="price">
         <Input v-model:value="formData.price" placeholder="请输入" />
       </FormItem>
-      <FormItem label="商品预售库存" name="total_stock">
+      <FormItem label="商品预售数量" name="total_stock">
         <Input v-model:value="formData.total_stock" placeholder="请输入" />
       </FormItem>
       <FormItem label="商品预售时间" name="presell_time">
@@ -152,7 +152,7 @@ const onSubmit = () => {
       console.log('%c [ res ]-150', 'font-size:13px; background:pink; color:#bf2c9f;', res)
       if(res) {
         createMessage.success('新增成功');
-        router.go(-1);
+        router.replace('/goods/sell');
       }
     })
     .catch((error: any) => {

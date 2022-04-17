@@ -1,7 +1,7 @@
 <template>
   <PageWrapper title="基础表单" contentBackground contentClass="p-4">
     <Form ref="formRef" :model="objData.formData" :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules">
-      <FormItem label="选择奖励产品" name="goods_id">
+      <FormItem label="奖励产品" name="goods_id">
         <Select
           v-model:value="objData.formData.goods_id"
           style="width: 100%"
@@ -10,10 +10,10 @@
         >
         </Select>
       </FormItem>
-      <FormItem label="奖励产品数量" name="count">
+      <FormItem label="产品数量" name="count">
         <Input v-model:value="objData.formData.count" placeholder="请输入" />
       </FormItem>
-      <FormItem label="奖励产品状态" name="status">
+      <FormItem label="产品状态" name="status">
         <Select
           v-model:value="objData.formData.status"
           style="width: 100%"
@@ -21,12 +21,6 @@
           :options="options2"
         >
         </Select>
-      </FormItem>
-      <FormItem label="商品简介" name="desc">
-        <Input.TextArea v-model:value="objData.formData.desc" :rows="5" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="商品描述" name="content">
-        <Tinymce v-model:value="objData.formData.content" @change="(value) => objData.formData.content = value" />
       </FormItem>
       <FormItem label="排序">
         <Input v-model:value="objData.formData.sort" placeholder="请输入" />
@@ -44,13 +38,12 @@ import { ref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { PageWrapper } from '/@/components/Page';
 import { Form, FormItem, Input, Button, Select } from 'ant-design-vue';
-import { Tinymce } from '/@/components/Tinymce/index';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { getGoodsAll, getPlayInfo, updatePlayInfo } from '/@/api/sys/goods';
+import { getGoodsAll, getPlayNeedInfo, updatePlayNeedInfo } from '/@/api/sys/goods';
 
 const router = useRouter();
 const route = useRoute();
-const { id = 0 } = route.params || {}
+const { id = 0, pid = 0 } = route.params || {}
 
 const labelCol = { span: 4 };
 const wrapperCol = { span: 14 };
@@ -78,20 +71,16 @@ init2();
 const options2 = ref([
   {
     value: '10',
-    label: '待上线',
-  },
-  {
-    value: '20',
     label: '已上线',
   },
   {
-    value: '30',
+    value: '20',
     label: '已下线',
   },
 ])
 
 const init = async () => {
-  const res = await getPlayInfo({
+  const res = await getPlayNeedInfo({
     id
   })
   if(res) {
@@ -110,15 +99,12 @@ const rules = {
   status: [{ required: true, message: '请选择', trigger: 'change' }],
   count: [{ required: true, message: '请输入', trigger: 'blur' }],
   sort: [{ required: true, message: '请输入', trigger: 'blur' }],
-  desc: [{ required: true, message: '请输入', trigger: 'blur' }],
 };
 
 const objData = reactive<any>({
   formData:{
     goods_id: '0',
     count: '1',
-    desc: '',
-    content: '',
     sort: '0',
     status: ''
   }
@@ -129,10 +115,10 @@ const onSubmit = () => {
   formRef.value
     .validate()
     .then(async () => {
-      const res = await updatePlayInfo({...objData.formData, id: id});
+      const res = await updatePlayNeedInfo({...objData.formData, id: id, play_id: pid});
       if(res) {
         createMessage.success('修改成功');
-        router.replace('/goods/compound');
+        router.replace(`/goods/compound_sku/${pid}`);
       }
     })
     .catch((error: any) => {

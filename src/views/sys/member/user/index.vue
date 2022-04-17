@@ -58,6 +58,11 @@
         icon: 'clarity:info-standard-line',
         tooltip: '用户详情',
         onClick: handleView.bind(null, record),
+      },
+      {
+        icon: 'ant-design:retweet-outlined',
+        tooltip: '空投',
+        onClick: handleGrant.bind(null, record),
       }
     ];
     if(record.state) {
@@ -100,4 +105,9 @@
   const handleView = (record: Recordable) => {
     go('/member/user_detail/' + record.id);
   }
+
+  // 空投
+  const handleGrant = (record: Recordable) => {
+    go('/member/user_grant/' + record.id);
+  } 
 </script>

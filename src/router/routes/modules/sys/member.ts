@@ -36,6 +36,18 @@ const member: AppRouteModule = {
       component: () => import('/@/views/sys/member/user/UserDetail.vue'),
     },
     {
+      path: 'user_grant/:id',
+      name: 'UserGrant',
+      meta: {
+        hideMenu: true,
+        title: '会员空投',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/member/user',
+      },
+      component: () => import('/@/views/sys/member/user/Grant.vue'),
+    },
+    {
       path: 'bill',
       name: 'MemberBill',
       meta: {

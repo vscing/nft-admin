@@ -1,7 +1,7 @@
 <template>
   <PageWrapper title="基础表单" contentBackground contentClass="p-4">
     <Form ref="formRef" :model="formData" :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules">
-      <FormItem label="选择奖励产品" name="goods_id">
+      <FormItem label="奖励产品" name="goods_id">
         <Select
           v-model:value="formData.goods_id"
           style="width: 100%"
@@ -10,14 +10,8 @@
         >
         </Select>
       </FormItem>
-      <FormItem label="奖励产品数量" name="count">
+      <FormItem label="产品数量" name="count">
         <Input v-model:value="formData.count" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="商品简介" name="desc">
-        <Input.TextArea v-model:value="formData.desc" :rows="5" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="商品描述" name="content">
-        <Tinymce v-model:value="formData.content" @change="(value) => formData.content = value" />
       </FormItem>
       <FormItem label="排序">
         <Input v-model:value="formData.sort" placeholder="请输入" />
@@ -32,14 +26,15 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { PageWrapper } from '/@/components/Page';
 import { Form, FormItem, Input, Button, Select } from 'ant-design-vue';
-import { Tinymce } from '/@/components/Tinymce/index';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { getGoodsAll, addPlayInfo } from '/@/api/sys/goods';
+import { getGoodsAll, addPlayNeedInfo } from '/@/api/sys/goods';
 
 const router = useRouter();
+const route = useRoute();
+const { pid = 0 } = route.params || {};
 
 const labelCol = { span: 4 };
 const wrapperCol = { span: 14 };
@@ -52,14 +47,11 @@ const rules = {
   goods_id: [{ required: true, message: '请选择', trigger: 'change' }],
   count: [{ required: true, message: '请输入', trigger: 'blur' }],
   sort: [{ required: true, message: '请输入', trigger: 'blur' }],
-  desc: [{ required: true, message: '请输入', trigger: 'blur' }],
 };
 
 const formData = reactive<any>({
   goods_id: '0',
   count: '1',
-  desc: '',
-  content: '',
   sort: '0',
 });
 
@@ -85,11 +77,11 @@ const onSubmit = () => {
   formRef.value
     .validate()
     .then(async () => {
-      const res = await addPlayInfo({...formData});
+      const res = await addPlayNeedInfo({...formData, play_id: pid});
       console.log('%c [ res ]-150', 'font-size:13px; background:pink; color:#bf2c9f;', res)
       if(res) {
         createMessage.success('新增成功');
-        router.replace('/goods/compound');
+        router.replace(`/goods/compound_sku/${pid}`);
       }
     })
     .catch((error: any) => {

@@ -2,19 +2,16 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增发售商品</a-button>
+        <a-button type="primary" @click="handleCreate">新增合成子规则</a-button>
       </template>
-      <template #img="{ record }">
+      <template #goods_img="{ record }">
         <AntImage
           :width="53"
-          :src="record.img"
+          :src="record.goods_img"
         />
       </template>
       <template #status="{ record }">
         <span>{{ getStatusText(record.status)}}</span>
-      </template>
-      <template #presell_time="{ record }">
-        <span>{{ columnToDateTime(record.presell_time) }}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
@@ -45,7 +42,8 @@ import { reactive } from 'vue';
 
 import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getGoodsList } from '/@/api/sys/goods';
+import { useRoute } from 'vue-router';
+import { getPlayNeedList } from '/@/api/sys/goods';
 import { PageWrapper } from '/@/components/Page';
 import { useMessage } from '/@/hooks/web/useMessage';
 
@@ -56,10 +54,17 @@ import { columnToDateTime } from '/@/utils/dateUtil';
 const go = useGo();
 const { createMessage } = useMessage();
 const searchInfo = reactive<Recordable>({});
+
+const route = useRoute();
+const { pid = 0 } = route.params || {};
+
 // , { reload, updateTableDataRecord }
 const [registerTable] = useTable({
-  title: '预售产品列表',
-  api: getGoodsList,
+  title: '合成规则子列表',
+  api: getPlayNeedList,
+  searchInfo: {
+    play_id: pid
+  },
   rowKey: 'id',
   columns,
   formConfig: {
@@ -85,23 +90,19 @@ const [registerTable] = useTable({
 const getStatusText = (status) => {
   let text = '';
   if(status == 10) {
-    text = '待上架';
+    text = '已上线';
   } else if(status == 20){
-    text = '预售中';
-  } else if(status == 30){
-    text = '售卖中';
-  } else if(status == 40){
-    text = '已售罄';
+    text = '已下线';
   }
   return text;  
 }
 
 const handleCreate = () => {
-  go('/goods/sell_add')
+  go(`/goods/compound_sku_add/${pid}`)
 }
 
 function handleEdit(record: Recordable) {
-  go(`/goods/sell_edit/${record.id}`)
+  go(`/goods/compound_sku_edit/${record.id}/${pid}`)
 }
 
 function handleDelete(record: Recordable) {

@@ -27,8 +27,8 @@ export function formatToDate(
   return dayjs(date).format(format);
 }
 
-export function getDate(): any {
-  return dayjs();
+export function getDate( date: any = undefined): any {
+  return dayjs(date);
 }
 
 export const dateUtil = dayjs;

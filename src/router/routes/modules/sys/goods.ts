@@ -87,7 +87,7 @@ const goods: AppRouteModule = {
       component: () => import('/@/views/sys/goods/compound/index.vue'),
     },
     {
-      path: 'compound_add/:id',
+      path: 'compound_add',
       name: 'GoodsCompoundAdd',
       meta: {
         hideMenu: true,
@@ -99,7 +99,7 @@ const goods: AppRouteModule = {
       component: () => import('/@/views/sys/goods/compound/Add.vue'),
     },
     {
-      path: 'sell_edit/:id',
+      path: 'compound_edit/:id',
       name: 'GoodsCompoundEdit',
       meta: {
         hideMenu: true,
@@ -109,6 +109,42 @@ const goods: AppRouteModule = {
         currentActiveMenu: '/goods/compound',
       },
       component: () => import('/@/views/sys/goods/compound/Edit.vue'),
+    },
+    {
+      path: 'compound_sku/:pid',
+      name: 'GoodsCompoundSku',
+      meta: {
+        hideMenu: true,
+        title: '合成规则子添加',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/compound',
+      },
+      component: () => import('/@/views/sys/goods/compound-sku/index.vue'),
+    },
+    {
+      path: 'compound_sku_add/:pid',
+      name: 'GoodsCompoundSkuAdd',
+      meta: {
+        hideMenu: true,
+        title: '合成规则子添加',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/compound',
+      },
+      component: () => import('/@/views/sys/goods/compound-sku/Add.vue'),
+    },
+    {
+      path: 'compound_sku_edit/:id/:pid',
+      name: 'GoodsCompoundSkuEdit',
+      meta: {
+        hideMenu: true,
+        title: '合成规则子编辑',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/goods/compound',
+      },
+      component: () => import('/@/views/sys/goods/compound-sku/Edit.vue'),
     },
   ],
 };
