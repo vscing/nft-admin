@@ -75,3 +75,60 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
 ];
+
+export const bankCardColumns: any[] = [
+  {
+    title: '银行',
+    dataIndex: 'bank_name',
+    width: 120,
+  },
+  {
+    title: '开户行',
+    dataIndex: 'open_bank_name',
+    width: 120,
+  },
+  {
+    title: '卡号',
+    dataIndex: 'card_number',
+    width: 120,
+  },
+  {
+    title: '手机号',
+    dataIndex: 'phone',
+    width: 120,
+  },
+  {
+    title: '姓名',
+    dataIndex: 'phone',
+    width: 120,
+  },
+];
+
+export const userColumns: any[] = [
+  {
+    title: '用户ID',
+    dataIndex: 'id',
+    width: 120,
+  },
+  {
+    title: '昵称',
+    dataIndex: 'nickname',
+    width: 120,
+  },
+  {
+    title: '手机号',
+    dataIndex: 'phone',
+    width: 120,
+  },
+  {
+    title: '真实姓名',
+    dataIndex: 'real_name',
+    width: 120,
+  },
+  {
+    title: '身份证号',
+    dataIndex: 'id_number',
+    width: 120,
+  },
+  
+];

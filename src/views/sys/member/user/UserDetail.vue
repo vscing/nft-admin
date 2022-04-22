@@ -8,6 +8,9 @@
     <template #footer>
       <Tabs default-active-key="detail" v-model:activeKey="currentKey">
         <Tabs.TabPane key="detail" tab="用户资料" />
+        <Tabs.TabPane key="bankCard" tab="用户银行卡" />
+        <Tabs.TabPane key="parent" tab="上级" />
+        <Tabs.TabPane key="son" tab="下级" />
         <Tabs.TabPane key="logs" tab="操作日志" />
       </Tabs>
     </template>
@@ -40,6 +43,15 @@
           </Descriptions>
         </Card>
       </template>
+      <template v-if="currentKey == 'bankCard'">
+        <Table :dataSource="bankCardList" :columns="bankCardColumns" />
+      </template>
+      <template v-if="currentKey == 'parent'">
+        <Table :dataSource="parentList" :columns="userColumns" />
+      </template>
+      <template v-if="currentKey == 'son'">
+        <Table :dataSource="sonList" :columns="userColumns" />
+      </template>
       <template v-if="currentKey == 'logs'">
         <div>用户{{ data.nickname }}操作日志(待集成到elk)</div>
       </template>
@@ -53,15 +65,19 @@
   import { PageWrapper } from '/@/components/Page';
   import { useGo } from '/@/hooks/web/usePage';
   import { useTabs } from '/@/hooks/web/useTabs';
-  import { Card, Tabs, Descriptions } from 'ant-design-vue';
+  import { Card, Tabs, Descriptions, Table } from 'ant-design-vue';
   import { getUserInfo } from '/@/api/sys/member';
   import { columnToDateTime } from '/@/utils/dateUtil';
+  import { bankCardColumns, userColumns } from './user.data'
   
   const route = useRoute();
   const go = useGo();
 
   const userId = ref(route.params?.id);
   const data = ref<any>({});
+  const bankCardList = ref([]);
+  const parentList = ref([]);
+  const sonList = ref([]);
   const currentKey = ref('detail');
   const { setTitle } = useTabs();
 
@@ -72,6 +88,9 @@
   const getInfo = async () => {
     const res = await getUserInfo({id: userId.value});
     data.value = res.data;
+    bankCardList.value = res.bankCardList;
+    parentList.value = res.parentList;
+    sonList.value = res.sonList
   }
 
   getInfo();
