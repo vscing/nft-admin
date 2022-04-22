@@ -3,6 +3,11 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
+    title: '用户ID',
+    dataIndex: 'id',
+    width: 120,
+  },
+  {
     title: '手机号',
     dataIndex: 'phone',
     width: 120,
@@ -50,7 +55,7 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     field: 'is_name',
-    label: '是否认证',
+    label: '是否实名认证',
     component: 'Select',
     defaultValue: '0',
     colProps: { span: 8 },
@@ -68,6 +73,32 @@ export const searchFormSchema: FormSchema[] = [
         },
         {
           label: '未认证',
+          value: '2',
+          key: '2',
+        }
+      ],
+    },
+  },
+  {
+    field: 'is_bank',
+    label: '是否绑定银行卡',
+    component: 'Select',
+    defaultValue: '0',
+    colProps: { span: 8 },
+    componentProps: {
+      options: [
+        {
+          label: '全部',
+          value: '0',
+          key: '0',
+        },
+        {
+          label: '已绑定',
+          value: '1',
+          key: '1',
+        },
+        {
+          label: '未绑定',
           value: '2',
           key: '2',
         }

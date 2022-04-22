@@ -1,23 +1,8 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
-      <!-- <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增发售商品</a-button>
-      </template> -->
-      <template #img="{ record }">
-        <AntImage
-          :width="53"
-          :src="record.img"
-        />
-      </template>
-      <template #status="{ record }">
-        <span>{{ getStatusText(record.status)}}</span>
-      </template>
-      <template #presell_time="{ record }">
-        <span>{{ columnToDateTime(record.presell_time) }}</span>
-      </template>
-      <template #state="{ record }">
-        <span>{{ record.state ? '显示' : '隐藏' }}</span>
+      <template #payment_type="{ record }">
+        <span>{{ getType(record.payment_type)}}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
@@ -46,9 +31,8 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
-import { Image as AntImage } from 'ant-design-vue';
-import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getGoodsList } from '/@/api/sys/goods';
+import { BasicTable, useTable } from '/@/components/Table';
+import { getSellOrderList } from '/@/api/sys/order';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -56,10 +40,11 @@ import { useGo } from '/@/hooks/web/usePage';
 import { columnToDateTime } from '/@/utils/dateUtil';
 
 const go = useGo();
+console.log('%c [ go ]-43', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
-  title: '预售产品列表',
-  api: getGoodsList,
+  title: '预售订单列表',
+  api: getSellOrderList,
   rowKey: 'id',
   columns,
   formConfig: {
@@ -82,30 +67,30 @@ const [registerTable, { reload, updateTableDataRecord }] = useTable({
   // },
 });
 
-const getStatusText = (status) => {
+const getType = (status) => {
   let text = '';
-  if(status == 10) {
-    text = '待上架';
-  } else if(status == 20){
-    text = '预售中';
-  } else if(status == 30){
-    text = '售卖中';
-  } else if(status == 40){
-    text = '已售罄';
+  if(status == 1) {
+    text = '银行卡';
+  } else if(status == 2){
+    text = '支付宝';
+  } else if(status == 3){
+    text = '微信';
+  } else if(status == 4){
+    text = '余额支付';
   }
   return text;  
 }
 
-const handleCreate = () => {
-  console.log('handleCreate')
-  go('/goods/sell_add')
-}
+// const handleCreate = () => {
+//   console.log('handleCreate')
+//   go('/goods/sell_add')
+// }
 
-function handleEdit(record: Recordable) {
-  console.log(record);
-}
+// function handleEdit(record: Recordable) {
+//   console.log(record);
+// }
 
-function handleDelete(record: Recordable) {
-  console.log(record);
-}
+// function handleDelete(record: Recordable) {
+//   console.log(record);
+// }
 </script>
