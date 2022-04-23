@@ -8,7 +8,8 @@ enum Api {
   Logout = '/logout',
   GetUserInfo = '/getUserInfo',
   GetPermCode = '/getPermCode',
-  getUserBill = '/userBill/getList'
+  getUserBill = '/userBill/getList',
+  setOperate = '/userBill/setOperate',
 }
 
 /**
@@ -42,3 +43,5 @@ export function doLogout() {
 }
 
 export const getUserBill = (params: any) => defHttp.get<any>({ url: Api.getUserBill, params });
+
+export const setOperate = (data: any) => defHttp.post<any>({ url: Api.setOperate, data });

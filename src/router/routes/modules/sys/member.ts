@@ -67,6 +67,27 @@ const member: AppRouteModule = {
         currentActiveMenu: '/member/bill',
       },
       component: () => import('/@/views/sys/member/bill/Detail.vue'),
+    },
+    {
+      path: 'withdraw',
+      name: 'MemberWithdraw',
+      meta: {
+        title: '用户提现',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/member/withdraw/index.vue'),
+    },
+    {
+      path: 'withdraw_detail/:id',
+      name: 'MemberWithdrawDetail',
+      meta: {
+        hideMenu: true,
+        title: '提现详情',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/member/withdraw',
+      },
+      component: () => import('/@/views/sys/member/withdraw/Detail.vue'),
     }
   ],
 };

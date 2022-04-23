@@ -4,66 +4,79 @@ import { FormSchema } from '/@/components/Table';
 export const columns: BasicColumn[] = [
   {
     title: '用户ID',
-    dataIndex: 'id',
+    dataIndex: 'user_id',
     width: 120,
   },
   {
-    title: '手机号',
-    dataIndex: 'phone',
-    width: 120,
-  },
-  {
-    title: '昵称',
-    dataIndex: 'nickname',
+    title: '用户支付宝账户',
+    dataIndex: 'alipay_account',
     width: 120,
   },
   // {
-  //   title: '头像',
-  //   dataIndex: 'avatar',
+  //   title: '用户支银行卡号',
+  //   dataIndex: 'bank_card',
   //   width: 120,
+  //   slots: { customRender: 'bank_card' },
   // },
   {
-    title: '钱包地址',
-    dataIndex: 'polygon_address',
+    title: '账单名称',
+    dataIndex: 'bill_name',
     width: 120,
   },
   {
-    title: '实名认证状态',
-    dataIndex: 'real_name',
-    width: 180,
+    title: '账单类型',
+    dataIndex: 'bill_type',
+    width: 120,
+    slots: { customRender: 'bill_type' },
   },
   {
-    title: '最后登录时间',
-    dataIndex: 'lastTime',
-    width: 200,
-    slots: { customRender: 'lastTime' },
+    title: '账单金额',
+    dataIndex: 'bill_money',
+    width: 120,
+  },
+  {
+    title: '订单号',
+    dataIndex: 'order_number',
+    width: 120,
+  },
+  {
+    title: '支付方式',
+    dataIndex: 'payment',
+    width: 120,
+    slots: { customRender: 'payment' },
+  },
+  {
+    title: '是否操作',
+    dataIndex: 'is_operate',
+    width: 120,
+    slots: { customRender: 'is_operate' },
   },
   {
     title: '创建时间',
-    dataIndex: 'created_at',
-    width: 200,
+    dataIndex: 'createTime',
+    width: 180,
     slots: { customRender: 'created_at' },
-  }
+  },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'id',
-    label: '用户ID',
+    field: 'bill_name',
+    label: '账单名称',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'phone',
-    label: '手机号',
+    field: 'order_number',
+    label: '订单号',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'is_name',
-    label: '是否实名认证',
+    field: 'bill_type',
+    label: '账单类型',
     component: 'Select',
-    defaultValue: '0',
+    defaultValue: '2',
     colProps: { span: 8 },
     componentProps: {
       options: [
@@ -73,41 +86,30 @@ export const searchFormSchema: FormSchema[] = [
           key: '0',
         },
         {
-          label: '已认证',
+          label: '充值',
           value: '1',
           key: '1',
         },
         {
-          label: '未认证',
+          label: '提现',
           value: '2',
           key: '2',
-        }
-      ],
-    },
-  },
-  {
-    field: 'is_bank',
-    label: '是否绑定银行卡',
-    component: 'Select',
-    defaultValue: '0',
-    colProps: { span: 8 },
-    componentProps: {
-      options: [
-        {
-          label: '全部',
-          value: '0',
-          key: '0',
         },
         {
-          label: '已绑定',
-          value: '1',
-          key: '1',
+          label: '收益',
+          value: '3',
+          key: '3',
         },
         {
-          label: '未绑定',
-          value: '2',
-          key: '2',
-        }
+          label: '佣金',
+          value: '4',
+          key: '4',
+        },
+        {
+          label: '余额支付',
+          value: '5',
+          key: '5',
+        },
       ],
     },
   },
