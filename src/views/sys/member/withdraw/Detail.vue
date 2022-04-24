@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import { PageWrapper } from '/@/components/Page';
   import { useGo } from '/@/hooks/web/usePage';
   import { useTabs } from '/@/hooks/web/useTabs';
@@ -71,6 +71,7 @@
   import { bankCardColumns, userColumns } from './data'
   
   const route = useRoute();
+  const router = useRouter();
   const go = useGo();
 
   const userId = ref(route.params?.id);
@@ -97,6 +98,8 @@
 
   // 页面左侧点击返回链接时的操作
   function goBack() {
+    router.go(-1);
+    return;
     // 本例的效果时点击返回始终跳转到账号列表页，实际应用时可返回上一页
     go('/member/withdraw');
   }

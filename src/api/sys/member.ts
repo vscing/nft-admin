@@ -5,7 +5,11 @@ enum Api {
   UserInfo = '/user/getInfo',
   UpdateState = '/user/updateState',
   OnGrant = '/user/onGrant',
+
+  getPrizeList = '/prize/getList',
 }
+
+export const getPrizeList = (params: any) => defHttp.get<any>({ url: Api.getPrizeList, params });
 
 export const getUserList = (params: any) => defHttp.get<any>({ url: Api.UserList, params });
 

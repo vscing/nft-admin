@@ -67,11 +67,11 @@ export const searchFormSchema: FormSchema[] = [
     componentProps: {
       options: [
         { label: '待寄售', value: '10' },
-        { label: '待审核', value: '20' },
-        { label: '寄售中', value: '30' },
-        { label: '已下架', value: '40' },
-        { label: '被拒绝', value: '50' },
-        { label: '锁定中', value: '60' },
+        { label: '已寄售', value: '20' },
+        // { label: '寄售中', value: '30' },
+        // { label: '已下架', value: '40' },
+        // { label: '被拒绝', value: '50' },
+        // { label: '锁定中', value: '60' },
       ],
     },
     colProps: { span: 8 },

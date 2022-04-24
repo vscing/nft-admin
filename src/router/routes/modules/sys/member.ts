@@ -73,7 +73,7 @@ const member: AppRouteModule = {
       name: 'MemberWithdraw',
       meta: {
         title: '用户提现',
-        ignoreKeepAlive: false,
+        ignoreKeepAlive: true,
       },
       component: () => import('/@/views/sys/member/withdraw/index.vue'),
     },
@@ -88,7 +88,16 @@ const member: AppRouteModule = {
         currentActiveMenu: '/member/withdraw',
       },
       component: () => import('/@/views/sys/member/withdraw/Detail.vue'),
-    }
+    },
+    {
+      path: 'draw',
+      name: 'MemberDraw',
+      meta: {
+        title: '用户抽签',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/member/draw/index.vue'),
+    },
   ],
 };
 
