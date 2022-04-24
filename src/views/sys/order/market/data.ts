@@ -68,5 +68,17 @@ export const searchFormSchema: FormSchema[] = [
     label: '订单号',
     component: 'Input',
     colProps: { span: 8 },
-  }
+  },
+  {
+    field: 'user_id',
+    label: '买家ID',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
+    field: 'seller_id',
+    label: '卖家ID',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
 ];

@@ -8,9 +8,14 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '真实姓名',
+    dataIndex: 'real_name',
+    width: 120,
+  },
+  {
     title: '用户支付宝账户',
     dataIndex: 'alipay_account',
-    width: 120,
+    width: 240,
   },
   // {
   //   title: '用户支银行卡号',
