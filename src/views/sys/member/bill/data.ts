@@ -44,6 +44,18 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
+    field: 'user_id',
+    label: '用户ID',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
+    field: 'phone',
+    label: '用户手机号',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
     field: 'bill_name',
     label: '账单名称',
     component: 'Input',

@@ -80,7 +80,7 @@ const getBillType = (status) => {
     text = '收益';
   } else if(status == 4){
     text = '佣金';
-  }else if(status == 4){
+  }else if(status == 5){
     text = '余额支付';
   }
   return text;  

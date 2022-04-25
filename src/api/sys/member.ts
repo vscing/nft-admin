@@ -7,9 +7,15 @@ enum Api {
   OnGrant = '/user/onGrant',
 
   getPrizeList = '/prize/getList',
+  setUserPrize = '/prize/setUserPrize',
+  setAllRefund = '/prize/setAllRefund'
 }
 
 export const getPrizeList = (params: any) => defHttp.get<any>({ url: Api.getPrizeList, params });
+
+export const setUserPrize = (data: any) => defHttp.post<any>({ url: Api.setUserPrize, data});
+
+export const setAllRefund = (data: any) => defHttp.post<any>({ url: Api.setAllRefund, data});
 
 export const getUserList = (params: any) => defHttp.get<any>({ url: Api.UserList, params });
 
