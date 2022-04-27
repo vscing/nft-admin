@@ -8,6 +8,11 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '用户手机号',
+    dataIndex: 'phone',
+    width: 120,
+  },
+  {
     title: '用户名称',
     dataIndex: 'user_name',
     width: 120,
@@ -28,6 +33,11 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '藏品数量',
+    dataIndex: 'goods_sku_count',
+    width: 120,
+  },
+  {
     title: '抽奖状态',
     dataIndex: 'status',
     width: 120,
@@ -45,6 +55,12 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'user_id',
     label: '用户ID',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
+    field: 'phone',
+    label: '手机号',
     component: 'Input',
     colProps: { span: 8 },
   },
