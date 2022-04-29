@@ -4,6 +4,9 @@
       <template #bill_type="{ record }">
         <span>{{ getBillType(record.bill_type)}}</span>
       </template>
+      <template #status="{ record }">
+        <span>{{ getStatus(record.status)}}</span>
+      </template>
       <template #payment="{ record }">
         <span>{{ getType(record.payment)}}</span>
       </template>
@@ -96,6 +99,16 @@ const getType = (status) => {
     text = '微信';
   } else if(status == 4){
     text = '余额支付';
+  }
+  return text;  
+}
+
+const getStatus = (status) => {
+  let text = '';
+  if(status == 10) {
+    text = '未成功';
+  } else if(status == 20){
+    text = '已成功';
   }
   return text;  
 }

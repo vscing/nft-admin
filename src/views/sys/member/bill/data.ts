@@ -29,6 +29,12 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '支付状态',
+    dataIndex: 'status',
+    width: 120,
+    slots: { customRender: 'status' },
+  },
+  {
     title: '支付方式',
     dataIndex: 'payment',
     width: 120,
@@ -54,6 +60,32 @@ export const searchFormSchema: FormSchema[] = [
     label: '订单号',
     component: 'Input',
     colProps: { span: 8 },
+  },
+  {
+    field: 'status',
+    label: '账单状态',
+    component: 'Select',
+    defaultValue: '0',
+    colProps: { span: 8 },
+    componentProps: {
+      options: [
+        {
+          label: '全部',
+          value: '0',
+          key: '0',
+        },
+        {
+          label: '未完成',
+          value: '10',
+          key: '10',
+        },
+        {
+          label: '已完成',
+          value: '20',
+          key: '20',
+        },
+      ],
+    },
   },
   {
     field: 'bill_type',

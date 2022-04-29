@@ -162,7 +162,6 @@ const formRef = ref();
 const rules = {
   title: [
     { required: true, message: '请输入', trigger: 'blur' },
-    { min: 4, max: 150, message: '请输入标题 4 到 150 位', trigger: 'blur' },
   ],
   img: [{ required: true, message: '请选择', trigger: 'change' }],
   presell_time: [{ required: true, message: '请选择', trigger: 'change' }],
