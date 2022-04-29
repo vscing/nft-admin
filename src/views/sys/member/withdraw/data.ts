@@ -66,6 +66,18 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
+    field: 'user_id',
+    label: '用户ID',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
+    field: 'phone',
+    label: '用户手机号',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
     field: 'bill_name',
     label: '账单名称',
     component: 'Input',
@@ -76,6 +88,32 @@ export const searchFormSchema: FormSchema[] = [
     label: '订单号',
     component: 'Input',
     colProps: { span: 8 },
+  },
+  {
+    field: 'is_operate',
+    label: '是否操作',
+    component: 'Select',
+    defaultValue: '0',
+    colProps: { span: 8 },
+    componentProps: {
+      options: [
+        {
+          label: '全部',
+          value: '0',
+          key: '0',
+        },
+        {
+          label: '已操作',
+          value: '1',
+          key: '1',
+        },
+        {
+          label: '未操作',
+          value: '2',
+          key: '2',
+        },
+      ],
+    },
   },
   {
     field: 'bill_type',

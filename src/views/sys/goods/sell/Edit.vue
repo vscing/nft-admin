@@ -128,13 +128,13 @@ const init = async () => {
 init();
 
 const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
   if (!isJpgOrPng) {
     createMessage.error('上传图片格式不正确');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
+  const isLt2M = file.size / 1024 / 1024 < 50;
   if (!isLt2M) {
-    createMessage.error('请上传2MB以下图片!');
+    createMessage.error('请上传50MB以下图片!');
   }
   return isJpgOrPng && isLt2M;
 }
