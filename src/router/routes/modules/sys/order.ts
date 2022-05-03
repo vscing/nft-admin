@@ -78,6 +78,15 @@ const order: AppRouteModule = {
       },
       component: () => import('/@/views/sys/order/compound/Detail.vue'),
     },
+    {
+      path: 'api_auth',
+      name: 'OrderApiAuth',
+      meta: {
+        title: '认证订单',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/order/api-auth/index.vue'),
+    },
     
   ],
 };

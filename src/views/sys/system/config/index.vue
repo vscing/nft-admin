@@ -4,10 +4,11 @@
       <TabPane v-for="item in tabsList" :key="item.id" :tab="item.name">
         <Form :model="formData" :label-col="labelCol" :wrapper-col="wrapperCol">
           <FormItem v-for="son in tabPaneList" :label="son.name">
-            <RadioGroup v-if="son.value_type == 'radio'" v-model:value="formData[son.code]">
+            <Switch v-if="son.value_type == 'switch'" checked-children="开" un-checked-children="关" v-model:checked="formData[son.code]" checkedValue="1" unCheckedValue="2" />
+            <!-- <RadioGroup v-if="son.value_type == 'radio'" v-model:value="formData[son.code]">
               <Radio :value="1">盲盒</Radio>
               <Radio :value="2">抽奖</Radio>
-            </RadioGroup>
+            </RadioGroup> -->
             <Input v-if="son.value_type == 'input'" v-model:value="formData[son.code]" />
             <Input.TextArea v-if="son.value_type == 'textarea'" v-model:value="formData[son.code]" :rows="5" />
             <Tinymce v-if="son.value_type == 'html'" v-model:value="formData[son.code]" @change="(value) => formData[son.code] = value"/>
@@ -40,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Tabs, TabPane, Form, FormItem, Input, Upload, Button, RadioGroup, Radio } from 'ant-design-vue';
+  import { Tabs, TabPane, Form, FormItem, Input, Upload, Button, Switch } from 'ant-design-vue';
   import { Tinymce } from '/@/components/Tinymce/index';
   import { LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue';
   import { PageWrapper } from '/@/components/Page';

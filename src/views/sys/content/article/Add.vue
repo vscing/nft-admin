@@ -1,10 +1,19 @@
 <template>
   <PageWrapper title="基础表单" contentBackground contentClass="p-4">
     <Form ref="formRef" :model="formData" :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules">
-      <FormItem label="商品标题" name="title">
+      <FormItem label="分类" name="category_id">
+        <Select
+          v-model:value="formData.category_id"
+          style="width: 100%"
+          placeholder="请选择状态"
+        >
+          <SelectOption v-for="item in options" :value="item.id" :key="item.id">{{item.name}}</SelectOption>
+        </Select>
+      </FormItem>
+      <FormItem label="标题" name="title">
         <Input v-model:value="formData.title" placeholder="请输入" />
       </FormItem>
-      <FormItem label="商品封面图" name="img">
+      <FormItem label="封面图" name="img">
         <Upload name="file" list-type="picture-card" :show-upload-list="false" :action="uploadUrl" :headers="headers"
           :before-upload="beforeUpload" @change="(info) => handleChange(info)">
           <Image v-if="formData.img" :src="formData.img" alt="avatar" />
@@ -15,32 +24,21 @@
           </div>
         </Upload>
       </FormItem>
-      <FormItem label="商品价格" name="price">
-        <Input v-model:value="formData.price" placeholder="请输入" />
+      <FormItem label="简介">
+        <Input.TextArea v-model:value="formData.desc" :rows="5" placeholder="请输入" />
       </FormItem>
-      <FormItem label="商品预售数量" name="total_stock">
-        <Input v-model:value="formData.total_stock" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="商品预售时间" name="presell_time">
-        <DatePicker v-model:value="formData.presell_time" show-time placeholder="请选择" format="YYYY-MM-DD hh:mm:ss"/>
-      </FormItem>
-      <FormItem label="合约地址" name="contract_address">
-        <Input v-model:value="formData.contract_address" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="认证标识" name="token_id">
-        <Input v-model:value="formData.token_id" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="认证标准" name="token_standard">
-        <Input v-model:value="formData.token_standard" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="认证网络" name="blockchain">
-        <Input v-model:value="formData.blockchain" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="商品简介" name="desc">
-        <Input.TextArea v-model:value="formData.desc" :rows="5" placeholder="请输入" :maxlength="200" />
-      </FormItem>
-      <FormItem label="商品描述" name="content">
+      <FormItem label="描述" name="content">
         <Tinymce v-model:value="formData.content" @change="(value) => formData.content = value" />
+      </FormItem>
+      <FormItem label="状态">
+        <Select
+          v-model:value="formData.state"
+          style="width: 100%"
+          placeholder="请选择状态"
+        >
+          <SelectOption value="1">正常</SelectOption>
+          <SelectOption value="2">禁用</SelectOption>
+        </Select>
       </FormItem>
       <FormItem label="排序">
         <Input v-model:value="formData.sort" placeholder="请输入" />
@@ -57,14 +55,13 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { PageWrapper } from '/@/components/Page';
-import { Form, FormItem, Input, Upload, Image, Button, DatePicker } from 'ant-design-vue';
-import { Tinymce } from '/@/components/Tinymce/index';
+import { Form, FormItem, Input, Upload, Image, Button, Select, SelectOption } from 'ant-design-vue';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { useGlobSetting } from '/@/hooks/setting';
 import { getToken } from '/@/utils/auth';
-import { formatToDateTime, getDate } from '/@/utils/dateUtil';
-import { addGoodsInfo } from '/@/api/sys/goods';
+import { getCategoryList, addArticleInfo } from '/@/api/sys/content';
+import { Tinymce } from '/@/components/Tinymce/index';
 
 const router = useRouter();
 
@@ -110,36 +107,45 @@ const handleChange = (info: any) => {
   }
 }
 
+const options = ref([
+  {
+    name: '请选择',
+    id: '0'
+  }
+]);
+
+const init = async() => {
+  const res = await getCategoryList({});
+  console.log('%c [ res ]-69', 'font-size:13px; background:pink; color:#bf2c9f;', res)
+  if(res) {
+    options.value = options.value.concat(res.tree)
+  }
+}
+
+init();
+
 const formRef = ref();
 
 const rules = {
+  category_id: [{ required: true, message: '请选择', trigger: 'change' }],
   title: [
     { required: true, message: '请输入', trigger: 'blur' },
   ],
   img: [{ required: true, message: '请选择', trigger: 'change' }],
-  presell_time: [{ required: true, message: '请选择', trigger: 'change' }],
-  price: [{ required: true, message: '请输入', trigger: 'blur' }],
-  total_stock: [{ required: true, message: '请输入', trigger: 'blur' }],
-  contract_address: [{ required: true, message: '请输入', trigger: 'blur' }],
-  token_id: [{ required: true, message: '请输入', trigger: 'blur' }],
-  token_standard: [{ required: true, message: '请输入', trigger: 'blur' }],
-  blockchain: [{ required: true, message: '请输入', trigger: 'blur' }],
   desc: [{ required: true, message: '请输入', trigger: 'blur' }],
+  content: [{ required: true, message: '请选择', trigger: 'change' }],
+  state: [{ required: true, message: '请选择', trigger: 'change' }],
+  sort: [{ required: true, message: '请选择', trigger: 'blur' }],
 };
 
 const formData = reactive<any>({
+  category_id: '0',
   title: '',
   img: '',
-  price: '0.00',
-  total_stock: '1',
-  presell_time: getDate(),
-  contract_address: '',
-  token_id: '',
-  token_standard: '',
-  blockchain: '',
   desc: '',
   content: '',
-  sort: '0',
+  state: '2',
+  sort: '0'
 });
 
 
@@ -147,11 +153,10 @@ const onSubmit = () => {
   formRef.value
     .validate()
     .then(async () => {
-      const res = await addGoodsInfo({...formData, presell_time: formatToDateTime(formData.presell_time)});
-      console.log('%c [ res ]-150', 'font-size:13px; background:pink; color:#bf2c9f;', res)
+      const res = await addArticleInfo(formData);
       if(res) {
         createMessage.success('新增成功');
-        router.replace('/goods/sell');
+        router.replace('/content/article');
       }
     })
     .catch((error: any) => {

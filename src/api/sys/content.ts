@@ -60,5 +60,5 @@ export const updateBannerInfo = (params: any) => defHttp.post<any>({ url: Api.up
 
 export const updateBannerSort = (id: number, sort: number) => defHttp.post<any>({ url: Api.updateBannerSort, params: { id, sort }});
 
-export const delBannerInfo = (id: number) => defHttp.delete<any>({ url: Api.delBannerInfo, params: {id} });
+export const delBannerInfo = (id: any) => defHttp.delete<any>({ url: Api.delBannerInfo, params: {id} });
 

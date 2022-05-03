@@ -169,3 +169,43 @@ export const userColumns: any[] = [
   },
   
 ];
+
+export const childColumns: any[] = [
+  {
+    title: '用户ID',
+    dataIndex: 'id',
+    width: 120,
+  },
+  {
+    title: '昵称',
+    dataIndex: 'nickname',
+    width: 120,
+  },
+  {
+    title: '手机号',
+    dataIndex: 'phone',
+    width: 120,
+  },
+  {
+    title: '真实姓名',
+    dataIndex: 'real_name',
+    width: 120,
+  },
+  {
+    title: '身份证号',
+    dataIndex: 'id_number',
+    width: 120,
+  },
+  {
+    title: '绑定银行卡次数',
+    dataIndex: 'is_bank',
+    width: 120,
+  },
+  {
+    title: '创建日期',
+    dataIndex: 'created_at',
+    width: 120,
+    slots: { customRender: 'created_at' },
+  },
+  
+];

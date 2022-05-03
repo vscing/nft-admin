@@ -2,7 +2,7 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增账号</a-button>
+        <a-button type="primary" @click="handleCreate">轮播图新增</a-button>
       </template>
       <template #img="{ record }">
         <AntImage
@@ -11,7 +11,7 @@
         />
       </template>
       <template #state="{ record }">
-        <span>{{ record.state ? '显示' : '隐藏' }}</span>
+        <span>{{ record.state == 1 ? '显示' : '隐藏' }}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
@@ -42,7 +42,7 @@ import { reactive } from 'vue';
 
 import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getBannerList } from '/@/api/sys/content';
+import { getBannerList, delBannerInfo } from '/@/api/sys/content';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -51,7 +51,7 @@ import { columnToDateTime } from '/@/utils/dateUtil';
 
 const go = useGo();
 const searchInfo = reactive<Recordable>({});
-const [registerTable, { reload, updateTableDataRecord }] = useTable({
+const [registerTable, { reload }] = useTable({
   title: '轮播图列表',
   api: getBannerList,
   rowKey: 'id',
@@ -77,14 +77,17 @@ const [registerTable, { reload, updateTableDataRecord }] = useTable({
 });
 
 const handleCreate = () => {
-  console.log('handleCreate')
+  go('/content/banner_add')
 }
 
 function handleEdit(record: Recordable) {
-  console.log(record);
+  go('/content/banner_edit/' + record.id)
 }
 
-function handleDelete(record: Recordable) {
-  console.log(record);
+const handleDelete = async(record: Recordable) => {
+  const res = await delBannerInfo(record.id);
+  if(res) {
+    reload()
+  }
 }
 </script>

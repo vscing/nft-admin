@@ -1,10 +1,19 @@
 <template>
   <PageWrapper title="基础表单" contentBackground contentClass="p-4">
     <Form ref="formRef" :model="objData.formData" :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules">
-      <FormItem label="商品标题" name="title">
+      <FormItem label="分类" name="category_id">
+        <Select
+          v-model:value="objData.formData.category_id"
+          style="width: 100%"
+          placeholder="请选择分类"
+        >
+          <SelectOption v-for="item in options" :value="item.id" :key="item.id">{{item.name}}</SelectOption>
+        </Select>
+      </FormItem>
+      <FormItem label="标题" name="title">
         <Input v-model:value="objData.formData.title" placeholder="请输入" />
       </FormItem>
-      <FormItem label="商品封面图" name="img">
+      <FormItem label="封面图" name="img">
         <Upload name="file" list-type="picture-card" :show-upload-list="false" :action="uploadUrl" :headers="headers"
           :before-upload="beforeUpload" @change="(info) => handleChange(info)">
           <Image v-if="objData.formData.img" :src="objData.formData.img" alt="avatar" />
@@ -15,46 +24,23 @@
           </div>
         </Upload>
       </FormItem>
-      <FormItem label="商品价格" name="price">
-        <Input v-model:value="objData.formData.price" placeholder="请输入" />
+      <FormItem label="简介" name="desc">
+        <Input.TextArea v-model:value="objData.formData.desc" :rows="5" placeholder="请输入" />
       </FormItem>
-      <FormItem label="商品预售数量" name="total_stock">
-        <Input v-model:value="objData.formData.total_stock" placeholder="请输入"/>
-      </FormItem>
-      <FormItem label="商品库存" name="stock">
-        <Input v-model:value="objData.formData.stock" placeholder="请输入" :disabled="true" />
-      </FormItem>
-      <FormItem label="商品预售时间" name="presell_time">
-        <DatePicker v-model:value="objData.formData.presell_time" show-time placeholder="请选择" format="YYYY-MM-DD hh:mm:ss"/>
-      </FormItem>
-      <FormItem label="商品状态" name="status">
-        <Select
-          v-model:value="objData.formData.status"
-          style="width: 100%"
-          placeholder="请选择"
-          :options="options"
-        >
-        </Select>
-      </FormItem>
-      <FormItem label="合约地址" name="contract_address">
-        <Input v-model:value="objData.formData.contract_address" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="认证标识" name="token_id">
-        <Input v-model:value="objData.formData.token_id" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="认证标准" name="token_standard">
-        <Input v-model:value="objData.formData.token_standard" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="认证网络" name="blockchain">
-        <Input v-model:value="objData.formData.blockchain" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="商品简介" name="desc">
-        <Input.TextArea v-model:value="objData.formData.desc" :rows="5" placeholder="请输入" :maxlength="200" />
-      </FormItem>
-      <FormItem label="商品描述" name="content">
+      <FormItem label="描述" name="content">
         <Tinymce v-model:value="objData.formData.content" @change="(value) => objData.formData.content = value" />
       </FormItem>
-      <FormItem label="排序">
+      <FormItem label="状态" name="state">
+        <Select
+          v-model:value="objData.formData.state"
+          style="width: 100%"
+          placeholder="请选择状态"
+        >
+          <SelectOption value="1">正常</SelectOption>
+          <SelectOption value="2">禁用</SelectOption>
+        </Select>
+      </FormItem>
+      <FormItem label="排序" name="sort">
         <Input v-model:value="objData.formData.sort" placeholder="请输入" />
       </FormItem>
       <FormItem :wrapper-col="{ span: 14, offset: 4 }">
@@ -69,14 +55,13 @@
 import { ref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { PageWrapper } from '/@/components/Page';
-import { Form, FormItem, Input, Upload, Image, Button, DatePicker, Select } from 'ant-design-vue';
+import { Form, FormItem, Input, Upload, Image, Button, Select, SelectOption } from 'ant-design-vue';
 import { Tinymce } from '/@/components/Tinymce/index';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { useGlobSetting } from '/@/hooks/setting';
 import { getToken } from '/@/utils/auth';
-import { formatToDateTime, getDate } from '/@/utils/dateUtil';
-import { getGoodsInfo, updateGoodsInfo } from '/@/api/sys/goods';
+import { getCategoryList, getArticleInfo, updateArticleInfo } from '/@/api/sys/content';
 
 const router = useRouter();
 const route = useRoute();
@@ -90,22 +75,20 @@ const { uploadUrl } = useGlobSetting();
 
 const options = ref([
   {
-    value: '10',
-    label: '待上架',
-  },
-  {
-    value: '20',
-    label: '预售中',
-  },
-  {
-    value: '30',
-    label: '售卖中',
-  },
-  {
-    value: '40',
-    label: '已售罄',
-  },
-])
+    name: '请选择',
+    id: '0'
+  }
+]);
+
+const init1 = async() => {
+  const res = await getCategoryList({});
+  console.log('%c [ res ]-69', 'font-size:13px; background:pink; color:#bf2c9f;', res)
+  if(res) {
+    options.value = options.value.concat(res.tree);
+  }
+}
+
+init1();
 
 const token = getToken();
 const loading = ref<boolean>(false);
@@ -114,17 +97,16 @@ const headers = ref({
 })
 
 const init = async () => {
-  const res = await getGoodsInfo({
-    id
+  const res = await getArticleInfo({
+    id: id
   })
   if(res) {
     let formData = res.data;
-    formData.presell_time = getDate(formData.presell_time*1000);
-    formData.status = String(formData.status);
+    formData.category_id = formData.category_id;
+    formData.state = String(formData.state);
     objData.formData = formData
   }
 }
-
 init();
 
 const beforeUpload = (file) => {
@@ -149,7 +131,7 @@ const handleChange = (info: any) => {
       loading.value = true;
     }
   } else if (status === 'done') {
-    formData.img = url;
+    objData.formData.img = url;
     loading.value = false;
   } else if (status === 'error') {
     loading.value = false;
@@ -160,35 +142,26 @@ const handleChange = (info: any) => {
 const formRef = ref();
 
 const rules = {
+  category_id: [{ required: true, message: '请选择', trigger: 'change' }],
   title: [
     { required: true, message: '请输入', trigger: 'blur' },
   ],
   img: [{ required: true, message: '请选择', trigger: 'change' }],
-  presell_time: [{ required: true, message: '请选择', trigger: 'change' }],
-  price: [{ required: true, message: '请输入', trigger: 'blur' }],
-  total_stock: [{ required: true, message: '请输入', trigger: 'blur' }],
-  stock: [{ required: true, message: '请输入', trigger: 'blur' }],
-  contract_address: [{ required: true, message: '请输入', trigger: 'blur' }],
-  token_id: [{ required: true, message: '请输入', trigger: 'blur' }],
-  token_standard: [{ required: true, message: '请输入', trigger: 'blur' }],
-  blockchain: [{ required: true, message: '请输入', trigger: 'blur' }],
   desc: [{ required: true, message: '请输入', trigger: 'blur' }],
+  content: [{ required: true, message: '请选择', trigger: 'change' }],
+  state: [{ required: true, message: '请选择', trigger: 'change' }],
+  sort: [{ required: true, message: '请选择', trigger: 'blur' }],
 };
 
 const objData = reactive<any>({
   formData:{
+    category_id: '0',
     title: '',
     img: '',
-    price: '0.00',
-    total_stock: '1',
-    presell_time: getDate(),
-    contract_address: '',
-    token_id: '',
-    token_standard: '',
-    blockchain: '',
     desc: '',
     content: '',
-    sort: '0',
+    state: '2',
+    sort: '0'
   }
 });
 
@@ -197,10 +170,10 @@ const onSubmit = () => {
   formRef.value
     .validate()
     .then(async () => {
-      const res = await updateGoodsInfo({...objData.formData, id: id, presell_time: formatToDateTime(objData.formData.presell_time)});
+      const res = await updateArticleInfo({...objData.formData});
       if(res) {
         createMessage.success('修改成功');
-        router.replace('/goods/sell');
+        router.replace('/content/article');
       }
     })
     .catch((error: any) => {

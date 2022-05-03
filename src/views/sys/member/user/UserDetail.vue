@@ -60,7 +60,11 @@
         <Table :dataSource="parentList" :columns="userColumns" />
       </template>
       <template v-if="currentKey == 'son'">
-        <Table :dataSource="sonList" :columns="userColumns" />
+        <Table :dataSource="sonList" :columns="childColumns" :position="position">
+          <template #created_at="{ record }">
+            <span>{{columnToDateTime(record.created_at)}}</span>
+          </template>
+        </Table>
       </template>
       <template v-if="currentKey == 'logs'">
         <div>用户{{ data.nickname }}操作日志(待集成到elk)</div>
@@ -78,7 +82,7 @@ import { useTabs } from '/@/hooks/web/useTabs';
 import { Card, Tabs, Descriptions, Table, Form, FormItem, Input, Button } from 'ant-design-vue';
 import { getUserInfo, updatePrice } from '/@/api/sys/member';
 import { columnToDateTime } from '/@/utils/dateUtil';
-import { bankCardColumns, userColumns } from './user.data'
+import { bankCardColumns, userColumns, childColumns } from './user.data'
 import { useMessage } from '/@/hooks/web/useMessage';
 
 const route = useRoute();
@@ -129,6 +133,9 @@ const parentList = ref([]);
 const sonList = ref([]);
 const currentKey = ref('detail');
 const { setTitle } = useTabs();
+const position = ref({
+  total: 10
+});
 
 // 设置Tab的标题（不会影响页面标题）
 setTitle('详情：用户' + userId.value);

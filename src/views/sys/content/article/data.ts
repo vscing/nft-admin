@@ -1,4 +1,3 @@
-import { getAllRoleList, isAccountExist } from '/@/api/demo/system';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 
@@ -12,6 +11,12 @@ export const columns: BasicColumn[] = [
     title: '标题',
     dataIndex: 'title',
     width: 120,
+  },
+  {
+    title: '图片',
+    dataIndex: 'img',
+    width: 120,
+    slots: { customRender: 'img' },
   },
   {
     title: '排序',
@@ -39,71 +44,16 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 8 },
   },
-];
-
-export const accountFormSchema: FormSchema[] = [
   {
-    field: 'title',
-    label: '标题',
-    component: 'Input',
-    helpMessage: ['请输入标题'],
-    rules: [
-      {
-        required: true,
-        message: '请输入标题',
-      }
-    ],
-  },
-  {
-    field: 'category_id',
-    label: '所属分类',
-    component: 'TreeSelect',
+    field: 'state',
+    label: '状态',
+    component: 'Select',
     componentProps: {
-      fieldNames: {
-        label: 'name',
-        key: 'id',
-        value: 'id',
-      },
-      getPopupContainer: () => document.body,
+      options: [
+        { label: '显示', value: '1' },
+        { label: '隐藏', value: '2' },
+      ],
     },
-    required: true,
-  },
-  
-  {
-    field: 'img',
-    label: '封面图',
-    component: 'Upload',
-    required: true,
-  },
-  // {
-  //   label: '角色',
-  //   field: 'role',
-  //   component: 'ApiSelect',
-  //   componentProps: {
-  //     api: getAllRoleList,
-  //     labelField: 'roleName',
-  //     valueField: 'roleValue',
-  //   },
-  //   required: true,
-  // },
-  
-  {
-    field: 'nickname',
-    label: '昵称',
-    component: 'Input',
-    required: true,
-  },
-
-  {
-    label: '邮箱',
-    field: 'email',
-    component: 'Input',
-    required: true,
-  },
-
-  {
-    label: '备注',
-    field: 'remark',
-    component: 'InputTextArea',
+    colProps: { span: 8 },
   },
 ];

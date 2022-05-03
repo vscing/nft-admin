@@ -32,24 +32,30 @@ const content: AppRouteModule = {
       },
       component: () => import('/@/views/sys/content/article/index.vue'),
     },
-    // {
-    //   path: 'article',
-    //   name: 'articleManagement',
-    //   meta: {
-    //     title: '新增内容',
-    //     ignoreKeepAlive: false,
-    //   },
-    //   component: () => import('/@/views/sys/content/article/index.vue'),
-    // },
-    // {
-    //   path: 'article',
-    //   name: 'articleManagement',
-    //   meta: {
-    //     title: '内容列表',
-    //     ignoreKeepAlive: false,
-    //   },
-    //   component: () => import('/@/views/sys/content/article/index.vue'),
-    // },
+    {
+      path: 'article_add',
+      name: 'ContentArticleAdd',
+      meta: {
+        title: '内容新增',
+        ignoreKeepAlive: true,
+        hideMenu: true,
+        showMenu: false,
+        currentActiveMenu: '/content/article',
+      },
+      component: () => import('/@/views/sys/content/article/Add.vue'),
+    },
+    {
+      path: 'article_edit/:id',
+      name: 'ContentArticleEdit',
+      meta: {
+        title: '内容编辑',
+        ignoreKeepAlive: true,
+        hideMenu: true,
+        showMenu: false,
+        currentActiveMenu: '/content/article',
+      },
+      component: () => import('/@/views/sys/content/article/Edit.vue'),
+    },
     {
       path: 'banner',
       name: 'bannerManagement',
@@ -58,6 +64,30 @@ const content: AppRouteModule = {
         ignoreKeepAlive: false,
       },
       component: () => import('/@/views/sys/content/banner/index.vue'),
+    },
+    {
+      path: 'banner_add',
+      name: 'ContentBannerAdd',
+      meta: {
+        title: '轮播图新增',
+        ignoreKeepAlive: true,
+        hideMenu: true,
+        showMenu: false,
+        currentActiveMenu: '/content/banner',
+      },
+      component: () => import('/@/views/sys/content/banner/Add.vue'),
+    },
+    {
+      path: 'banner_edit/:id',
+      name: 'ContentBannerEdit',
+      meta: {
+        title: '轮播图编辑',
+        ignoreKeepAlive: true,
+        hideMenu: true,
+        showMenu: false,
+        currentActiveMenu: '/content/banner',
+      },
+      component: () => import('/@/views/sys/content/banner/Edit.vue'),
     },
     {
       path: 'link',

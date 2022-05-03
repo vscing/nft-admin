@@ -48,7 +48,7 @@ import { reactive } from 'vue';
 
 import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getGoodsList } from '/@/api/sys/goods';
+import { getPlayOrderList } from '/@/api/sys/order';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -58,8 +58,8 @@ import { columnToDateTime } from '/@/utils/dateUtil';
 const go = useGo();
 const searchInfo = reactive<Recordable>({});
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
-  title: '预售产品列表',
-  api: getGoodsList,
+  title: '合成订单列表',
+  api: getPlayOrderList,
   rowKey: 'id',
   columns,
   formConfig: {

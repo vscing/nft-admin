@@ -1,22 +1,16 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
-      <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增内容</a-button>
+      <template #type="{ record }">
+        <span>{{ getType(record.type)}}</span>
       </template>
-      <template #img="{ record }">
-        <AntImage
-          :width="53"
-          :src="record.img"
-        />
-      </template>
-      <template #state="{ record }">
-        <span>{{ record.state == 1 ? '显示' : '隐藏' }}</span>
+      <template #status="{ record }">
+        <span>{{ getStatus(record.status)}}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
       </template>
-      <template #action="{ record }">
+      <!-- <template #action="{ record }">
         <TableAction :actions="[
           {
             icon: 'clarity:note-edit-line',
@@ -33,27 +27,27 @@
             },
           },
         ]" />
-      </template>
+      </template> -->
     </BasicTable>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
-import { Image as AntImage } from 'ant-design-vue';
-import { BasicTable, useTable, TableAction } from '/@/components/Table';
+import { BasicTable, useTable } from '/@/components/Table';
+import { getApiAuthList } from '/@/api/sys/order';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
 import { useGo } from '/@/hooks/web/usePage';
 import { columnToDateTime } from '/@/utils/dateUtil';
-import { getArticleList, delArticleInfo } from '/@/api/sys/content';
 
 const go = useGo();
+console.log('%c [ go ]-43', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
-const [registerTable, { reload }] = useTable({
-  title: '内容列表',
-  api: getArticleList,
+const [registerTable] = useTable({
+  title: '认证支付列表',
+  api: getApiAuthList,
   rowKey: 'id',
   columns,
   formConfig: {
@@ -68,26 +62,31 @@ const [registerTable, { reload }] = useTable({
     console.log('handleSearchInfoFn', info);
     return info;
   },
-  actionColumn: {
-    width: 120,
-    title: '操作',
-    dataIndex: 'action',
-    slots: { customRender: 'action' },
-  },
+  // actionColumn: {
+  //   width: 120,
+  //   title: '操作',
+  //   dataIndex: 'action',
+  //   slots: { customRender: 'action' },
+  // },
 });
 
-const handleCreate = () => {
-  go('/content/article_add');
-}
-
-const handleEdit = (record: Recordable) => {
-  go('/content/article_edit/' + record.id)
-}
-
-const handleDelete = async(record: Recordable) => {
-  const res = await delArticleInfo(record.id);
-  if(res) {
-    reload()
+const getType = (type) => {
+  let text = '';
+  if(type == 1) {
+    text = '银行卡';
+  } else if(type == 2){
+    text = '身份证';
   }
+  return text;  
+}
+
+const getStatus = (status) => {
+  let text = '';
+  if(status == 10) {
+    text = '未支付';
+  } else if(status == 20){
+    text = '已支付';
+  }
+  return text;  
 }
 </script>

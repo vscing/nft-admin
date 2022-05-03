@@ -2,16 +2,16 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增内容</a-button>
+        <a-button type="primary" @click="handleCreate">新增盲盒</a-button>
       </template>
-      <template #img="{ record }">
+      <template #goods_img="{ record }">
         <AntImage
           :width="53"
-          :src="record.img"
+          :src="record.goods_img"
         />
       </template>
       <template #state="{ record }">
-        <span>{{ record.state == 1 ? '显示' : '隐藏' }}</span>
+        <span>{{ getStateText(record.state)}}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
@@ -42,18 +42,20 @@ import { reactive } from 'vue';
 
 import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
+import { getBlindList, delBlindInfo } from '/@/api/sys/goods';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
 import { useGo } from '/@/hooks/web/usePage';
 import { columnToDateTime } from '/@/utils/dateUtil';
-import { getArticleList, delArticleInfo } from '/@/api/sys/content';
 
 const go = useGo();
+
 const searchInfo = reactive<Recordable>({});
+// , { reload, updateTableDataRecord }
 const [registerTable, { reload }] = useTable({
-  title: '内容列表',
-  api: getArticleList,
+  title: '盲盒列表',
+  api: getBlindList,
   rowKey: 'id',
   columns,
   formConfig: {
@@ -76,18 +78,28 @@ const [registerTable, { reload }] = useTable({
   },
 });
 
+const getStateText = (state) => {
+  let text = '';
+  if(state == 1) {
+    text = '正常';
+  } else if(state == 2){
+    text = '禁用';
+  }
+  return text;  
+}
+
 const handleCreate = () => {
-  go('/content/article_add');
+  go('/goods/blind_add')
 }
 
 const handleEdit = (record: Recordable) => {
-  go('/content/article_edit/' + record.id)
+  go(`/goods/blind_edit/${record.id}`)
 }
 
 const handleDelete = async(record: Recordable) => {
-  const res = await delArticleInfo(record.id);
+  const res = await delBlindInfo(record.id);
   if(res) {
-    reload()
+    reload();
   }
 }
 </script>

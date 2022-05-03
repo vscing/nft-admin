@@ -27,8 +27,20 @@ enum Api {
   updatePlayNeedInfo = '/playNeed/updateInfo',
   updatePlayNeedSort = '/playNeed/updateSort',
   delPlayNeedInfo = '/playNeed/delInfo',
+
+  getBlindList = '/blind/getList',
+  addBlindInfo = '/blind/addInfo',
+  getBlindInfo = '/blind/getInfo',
+  updateBlindInfo = '/blind/updateInfo',
+  delBlindInfo = '/blind/delInfo',
   
 }
+
+export const getBlindList = (params: any) => defHttp.get<any>({ url: Api.getBlindList, params });
+export const addBlindInfo = (params: any) => defHttp.post<any>({ url: Api.addBlindInfo, params });
+export const getBlindInfo = (params: any) => defHttp.get<any>({ url: Api.getBlindInfo, params });
+export const updateBlindInfo = (params: any) => defHttp.post<any>({ url: Api.updateBlindInfo, params });
+export const delBlindInfo = (id: number) => defHttp.delete<any>({ url: Api.delBlindInfo, params: {id} });
 
 export const getGoodsAll = (params: any) => defHttp.get<any>({ url: Api.getGoodsAll, params });
 export const getGoodsList = (params: any) => defHttp.get<any>({ url: Api.getGoodsList, params });

@@ -3,19 +3,29 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '标题',
-    dataIndex: 'name',
+    title: '奖品名称',
+    dataIndex: 'goods_title',
     width: 120,
   },
   {
-    title: '封面图',
-    dataIndex: 'img',
+    title: '奖品封面图',
+    dataIndex: 'goods_img',
     width: 120,
-    slots: { customRender: 'img' },
+    slots: { customRender: 'goods_img' },
   },
   {
-    title: '排序',
-    dataIndex: 'sort',
+    title: '中奖概率(%)',
+    dataIndex: 'rate',
+    width: 120,
+  },
+  {
+    title: '总数',
+    dataIndex: 'num',
+    width: 120,
+  },
+  {
+    title: '剩余总数',
+    dataIndex: 'overplus_num',
     width: 120,
   },
   {
@@ -26,7 +36,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'created_at',
     width: 180,
     slots: { customRender: 'created_at' },
   },
@@ -34,8 +44,8 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '标题',
+    field: 'goods_title',
+    label: '奖品名称',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -45,8 +55,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '显示', value: '1' },
-        { label: '隐藏', value: '2' },
+        { label: '正常', value: '1' },
+        { label: '禁用', value: '2' },
       ],
     },
     colProps: { span: 8 },
