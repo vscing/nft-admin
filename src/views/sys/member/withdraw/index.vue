@@ -7,6 +7,9 @@
       <template #payment="{ record }">
         <span>{{ getType(record.payment)}}</span>
       </template>
+      <template #status="{ record }">
+        <span>{{ getStatus(record.status)}}</span>
+      </template>
       <!-- <template #bank_card="{ record }">
         <span>{{ JSON.stringify(record.bankCard)}}</span>
       </template> -->
@@ -32,6 +35,15 @@
               confirm: handleDelete.bind(null, record),
             },
           },
+          {
+            icon: 'ant-design:delete-outlined',
+            color: 'error',
+            tooltip: '解冻退款',
+            popConfirm: {
+              title: '是否确认解冻退款',
+              confirm: handleDelete2.bind(null, record),
+            },
+          },
         ]" />
       </template>
     </BasicTable>
@@ -41,7 +53,7 @@
 import { reactive } from 'vue';
 
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getUserBill, setOperate } from '/@/api/sys/user';
+import { getUserBill, setOperate, cancelOperate } from '/@/api/sys/user';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -106,6 +118,18 @@ const getType = (status) => {
   return text;  
 }
 
+const getStatus = (status) => {
+  let text = '';
+  if(status == 10) {
+    text = '待提现';
+  } else if(status == 20){
+    text = '已提现';
+  } else if(status == 30){
+    text = '已驳回';
+  }
+  return text;  
+}
+
 // const handleCreate = () => {
 //   console.log('handleCreate')
 //   go('/goods/sell_add')
@@ -117,6 +141,17 @@ function handleEdit(record: Recordable) {
 
 const handleDelete = async(record: Recordable) => {
   const res = await setOperate({id: record.id})
+    if(res.data) {
+      record.is_operate = 2;
+      const result = updateTableDataRecord(record.id, record);
+      console.log(result);
+    } else {
+      reload();
+    }
+}
+
+const handleDelete2 = async(record: Recordable) => {
+  const res = await cancelOperate({id: record.id})
     if(res.data) {
       record.is_operate = 2;
       const result = updateTableDataRecord(record.id, record);

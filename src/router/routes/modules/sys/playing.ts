@@ -21,7 +21,7 @@ const playing: AppRouteModule = {
         title: '合成规则',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/goods/compound/index.vue'),
+      component: () => import('/@/views/sys/playing/compound/index.vue'),
     },
     {
       path: 'compound_add',
@@ -33,7 +33,7 @@ const playing: AppRouteModule = {
         showMenu: false,
         currentActiveMenu: '/playing/compound',
       },
-      component: () => import('/@/views/sys/goods/compound/Add.vue'),
+      component: () => import('/@/views/sys/playing/compound/Add.vue'),
     },
     {
       path: 'compound_edit/:id',
@@ -45,7 +45,7 @@ const playing: AppRouteModule = {
         showMenu: false,
         currentActiveMenu: '/playing/compound',
       },
-      component: () => import('/@/views/sys/goods/compound/Edit.vue'),
+      component: () => import('/@/views/sys/playing/compound/Edit.vue'),
     },
     {
       path: 'compound_sku/:pid',
@@ -57,7 +57,7 @@ const playing: AppRouteModule = {
         showMenu: false,
         currentActiveMenu: '/playing/compound',
       },
-      component: () => import('/@/views/sys/goods/compound-sku/index.vue'),
+      component: () => import('/@/views/sys/playing/compound-sku/index.vue'),
     },
     {
       path: 'compound_sku_add/:pid',
@@ -69,7 +69,7 @@ const playing: AppRouteModule = {
         showMenu: false,
         currentActiveMenu: '/playing/compound',
       },
-      component: () => import('/@/views/sys/goods/compound-sku/Add.vue'),
+      component: () => import('/@/views/sys/playing/compound-sku/Add.vue'),
     },
     {
       path: 'compound_sku_edit/:id/:pid',
@@ -81,7 +81,7 @@ const playing: AppRouteModule = {
         showMenu: false,
         currentActiveMenu: '/playing/compound',
       },
-      component: () => import('/@/views/sys/goods/compound-sku/Edit.vue'),
+      component: () => import('/@/views/sys/playing/compound-sku/Edit.vue'),
     },
     {
       path: 'blind',
@@ -90,7 +90,7 @@ const playing: AppRouteModule = {
         title: '盲盒列表',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/sys/goods/blind/index.vue'),
+      component: () => import('/@/views/sys/playing/blind/index.vue'),
     },
     {
       path: 'blind_add',
@@ -100,9 +100,9 @@ const playing: AppRouteModule = {
         title: '盲盒奖品添加',
         ignoreKeepAlive: true,
         showMenu: false,
-        currentActiveMenu: '/goods/blind',
+        currentActiveMenu: '/playing/blind',
       },
-      component: () => import('/@/views/sys/goods/blind/Add.vue'),
+      component: () => import('/@/views/sys/playing/blind/Add.vue'),
     },
     {
       path: 'blind_edit/:id',
@@ -112,9 +112,9 @@ const playing: AppRouteModule = {
         title: '盲盒奖品编辑',
         ignoreKeepAlive: true,
         showMenu: false,
-        currentActiveMenu: '/goods/blind',
+        currentActiveMenu: '/playing/blind',
       },
-      component: () => import('/@/views/sys/goods/blind/Edit.vue'),
+      component: () => import('/@/views/sys/playing/blind/Edit.vue'),
     },
   ],
 };

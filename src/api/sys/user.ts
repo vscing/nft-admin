@@ -10,6 +10,7 @@ enum Api {
   GetPermCode = '/getPermCode',
   getUserBill = '/userBill/getList',
   setOperate = '/userBill/setOperate',
+  cancelOperate = '/userBill/cancelOperate',
 }
 
 /**
@@ -45,3 +46,5 @@ export function doLogout() {
 export const getUserBill = (params: any) => defHttp.get<any>({ url: Api.getUserBill, params });
 
 export const setOperate = (data: any) => defHttp.post<any>({ url: Api.setOperate, data });
+
+export const cancelOperate = (data: any) => defHttp.post<any>({ url: Api.cancelOperate, data });

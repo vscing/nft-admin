@@ -98,11 +98,11 @@ const getStatusText = (status) => {
 }
 
 const handleCreate = () => {
-  go(`/goods/compound_sku_add/${pid}`)
+  go(`/playing/compound_sku_add/${pid}`)
 }
 
 function handleEdit(record: Recordable) {
-  go(`/goods/compound_sku_edit/${record.id}/${pid}`)
+  go(`/playing/compound_sku_edit/${record.id}/${pid}`)
 }
 
 function handleDelete(record: Recordable) {

@@ -89,11 +89,11 @@ const getStateText = (state) => {
 }
 
 const handleCreate = () => {
-  go('/goods/blind_add')
+  go('/playing/blind_add')
 }
 
 const handleEdit = (record: Recordable) => {
-  go(`/goods/blind_edit/${record.id}`)
+  go(`/playing/blind_edit/${record.id}`)
 }
 
 const handleDelete = async(record: Recordable) => {

@@ -5,26 +5,16 @@
         <Select
           v-model:value="formData.goods_id"
           style="width: 100%"
-          placeholder="请选择奖励产品"
+          placeholder="请选择"
           :options="options"
         >
         </Select>
       </FormItem>
-      <FormItem label="奖品数量" name="num">
-        <Input v-model:value="formData.num" placeholder="请输入奖品数量" />
+      <FormItem label="产品数量" name="count">
+        <Input v-model:value="formData.count" placeholder="请输入" />
       </FormItem>
-      <FormItem label="中奖概率" name="rate">
-        <Input v-model:value="formData.rate" placeholder="请输入中奖概率" suffix="%" />
-      </FormItem>
-      <FormItem label="奖品状态">
-        <Select
-          v-model:value="formData.state"
-          style="width: 100%"
-          placeholder="请选择奖品状态"
-        >
-          <SelectOption value="1">正常</SelectOption>
-          <SelectOption value="2">禁用</SelectOption>
-        </Select>
+      <FormItem label="排序">
+        <Input v-model:value="formData.sort" placeholder="请输入" />
       </FormItem>
       <FormItem :wrapper-col="{ span: 14, offset: 4 }">
         <Button @click="resetForm">取消</Button>
@@ -36,13 +26,15 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { PageWrapper } from '/@/components/Page';
-import { Form, FormItem, Input, Button, Select, SelectOption } from 'ant-design-vue';
+import { Form, FormItem, Input, Button, Select } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { getGoodsAll, addBlindInfo } from '/@/api/sys/goods';
+import { getGoodsAll, addPlayNeedInfo } from '/@/api/sys/goods';
 
 const router = useRouter();
+const route = useRoute();
+const { pid = 0 } = route.params || {};
 
 const labelCol = { span: 4 };
 const wrapperCol = { span: 14 };
@@ -53,16 +45,14 @@ const formRef = ref();
 
 const rules = {
   goods_id: [{ required: true, message: '请选择', trigger: 'change' }],
-  num: [{ required: true, message: '请输入', trigger: 'blur' }],
-  rate: [{ required: true, message: '请输入', trigger: 'blur' }],
-  state: [{ required: true, message: '请输入', trigger: 'change' }],
+  count: [{ required: true, message: '请输入', trigger: 'blur' }],
+  sort: [{ required: true, message: '请输入', trigger: 'blur' }],
 };
 
 const formData = reactive<any>({
   goods_id: '0',
-  num: '1',
-  rate: '1',
-  state: '1',
+  count: '1',
+  sort: '0',
 });
 
 const options = ref([
@@ -87,11 +77,11 @@ const onSubmit = () => {
   formRef.value
     .validate()
     .then(async () => {
-      const res = await addBlindInfo({...formData});
+      const res = await addPlayNeedInfo({...formData, play_id: pid});
       console.log('%c [ res ]-150', 'font-size:13px; background:pink; color:#bf2c9f;', res)
       if(res) {
         createMessage.success('新增成功');
-        router.replace(`/goods/blind`);
+        router.replace(`/playing/compound_sku/${pid}`);
       }
     })
     .catch((error: any) => {

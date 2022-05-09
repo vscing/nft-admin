@@ -118,7 +118,7 @@ const onSubmit = () => {
       const res = await updatePlayNeedInfo({...objData.formData, id: id, play_id: pid});
       if(res) {
         createMessage.success('修改成功');
-        router.replace(`/goods/compound_sku/${pid}`);
+        router.replace(`/playing/compound_sku/${pid}`);
       }
     })
     .catch((error: any) => {

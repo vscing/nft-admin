@@ -89,7 +89,7 @@ const onSubmit = () => {
       console.log('%c [ res ]-150', 'font-size:13px; background:pink; color:#bf2c9f;', res)
       if(res) {
         createMessage.success('新增成功');
-        router.replace('/goods/compound');
+        router.replace('/playing/compound');
       }
     })
     .catch((error: any) => {

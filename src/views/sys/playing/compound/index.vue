@@ -99,15 +99,15 @@ const getStatusText = (status) => {
 }
 
 const handleCreate = () => {
-  go('/goods/compound_add')
+  go('/playing/compound_add')
 }
 
 function handleEdit(record: Recordable) {
-  go(`/goods/compound_edit/${record.id}`)
+  go(`/playing/compound_edit/${record.id}`)
 }
 
 function handleSon(record: Recordable) {
-  go(`/goods/compound_sku/${record.id}`)
+  go(`/playing/compound_sku/${record.id}`)
 }
 
 function handleDelete(record: Recordable) {

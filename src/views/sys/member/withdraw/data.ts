@@ -8,6 +8,28 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '账单名称',
+    dataIndex: 'bill_name',
+    width: 120,
+  },
+  {
+    title: '订单号',
+    dataIndex: 'order_number',
+    width: 120,
+  },
+  {
+    title: '支付方式',
+    dataIndex: 'payment',
+    width: 120,
+    slots: { customRender: 'payment' },
+  },
+  {
+    title: '账单类型',
+    dataIndex: 'bill_type',
+    width: 120,
+    slots: { customRender: 'bill_type' },
+  },
+  {
     title: '真实姓名',
     dataIndex: 'real_name',
     width: 120,
@@ -24,34 +46,18 @@ export const columns: BasicColumn[] = [
   //   slots: { customRender: 'bank_card' },
   // },
   {
-    title: '账单名称',
-    dataIndex: 'bill_name',
-    width: 120,
-  },
-  {
-    title: '账单类型',
-    dataIndex: 'bill_type',
-    width: 120,
-    slots: { customRender: 'bill_type' },
-  },
-  {
     title: '账单金额',
     dataIndex: 'bill_money',
     width: 120,
   },
   {
-    title: '订单号',
-    dataIndex: 'order_number',
+    title: '账单状态',
+    dataIndex: 'status',
     width: 120,
+    slots: { customRender: 'status' },
   },
   {
-    title: '支付方式',
-    dataIndex: 'payment',
-    width: 120,
-    slots: { customRender: 'payment' },
-  },
-  {
-    title: '是否操作',
+    title: '是否操作(仅代表操作)',
     dataIndex: 'is_operate',
     width: 120,
     slots: { customRender: 'is_operate' },
@@ -88,6 +94,37 @@ export const searchFormSchema: FormSchema[] = [
     label: '订单号',
     component: 'Input',
     colProps: { span: 8 },
+  },
+  {
+    field: 'status',
+    label: '账单状态',
+    component: 'Select',
+    defaultValue: '0',
+    colProps: { span: 8 },
+    componentProps: {
+      options: [
+        {
+          label: '全部',
+          value: '0',
+          key: '0',
+        },
+        {
+          label: '待提现',
+          value: '10',
+          key: '10',
+        },
+        {
+          label: '已提现',
+          value: '20',
+          key: '20',
+        },
+        {
+          label: '已驳回',
+          value: '30',
+          key: '30',
+        },
+      ],
+    },
   },
   {
     field: 'is_operate',

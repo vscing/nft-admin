@@ -1,35 +1,33 @@
 <template>
   <PageWrapper title="基础表单" contentBackground contentClass="p-4">
     <Form ref="formRef" :model="objData.formData" :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules">
-      <FormItem label="选择奖励产品" name="goods_id">
+      <FormItem label="奖励产品" name="goods_id">
         <Select
           v-model:value="objData.formData.goods_id"
           style="width: 100%"
-          placeholder="请选择"
+          placeholder="请选择奖励产品"
           :options="options"
         >
         </Select>
       </FormItem>
-      <FormItem label="奖励产品数量" name="count">
-        <Input v-model:value="objData.formData.count" placeholder="请输入" />
+      <FormItem label="奖品数量" name="num">
+        <Input v-model:value="objData.formData.num" placeholder="请输入奖品数量" />
       </FormItem>
-      <FormItem label="奖励产品状态" name="status">
+      <FormItem label="奖品剩余数量" name="overplus_num">
+        <Input v-model:value="objData.formData.overplus_num" placeholder="请输入奖品数量" />
+      </FormItem>
+      <FormItem label="中奖概率" name="rate">
+        <Input v-model:value="objData.formData.rate" placeholder="请输入中奖概率" suffix="%" />
+      </FormItem>
+      <FormItem label="奖品状态">
         <Select
-          v-model:value="objData.formData.status"
+          v-model:value="objData.formData.state"
           style="width: 100%"
-          placeholder="请选择"
-          :options="options2"
+          placeholder="请选择奖品状态"
         >
+          <SelectOption value="1">正常</SelectOption>
+          <SelectOption value="2">禁用</SelectOption>
         </Select>
-      </FormItem>
-      <FormItem label="商品简介" name="desc">
-        <Input.TextArea v-model:value="objData.formData.desc" :rows="5" placeholder="请输入" />
-      </FormItem>
-      <FormItem label="商品描述" name="content">
-        <Tinymce v-model:value="objData.formData.content" @change="(value) => objData.formData.content = value" />
-      </FormItem>
-      <FormItem label="排序">
-        <Input v-model:value="objData.formData.sort" placeholder="请输入" />
       </FormItem>
       <FormItem :wrapper-col="{ span: 14, offset: 4 }">
         <Button @click="resetForm">取消</Button>
@@ -43,10 +41,9 @@
 import { ref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { PageWrapper } from '/@/components/Page';
-import { Form, FormItem, Input, Button, Select } from 'ant-design-vue';
-import { Tinymce } from '/@/components/Tinymce/index';
+import { Form, FormItem, Input, Button, Select, SelectOption } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { getGoodsAll, getPlayInfo, updatePlayInfo } from '/@/api/sys/goods';
+import { getGoodsAll, getBlindInfo, updateBlindInfo } from '/@/api/sys/goods';
 
 const router = useRouter();
 const route = useRoute();
@@ -57,7 +54,6 @@ const wrapperCol = { span: 14 };
 
 const { createMessage } = useMessage();
 
-
 const options = ref([
   {
     label: '请选择',
@@ -65,7 +61,7 @@ const options = ref([
   }
 ]);
 
-const init2 = async() => {
+const init1 = async() => {
   const res = await getGoodsAll({});
   console.log('%c [ res ]-69', 'font-size:13px; background:pink; color:#bf2c9f;', res)
   if(res) {
@@ -73,30 +69,15 @@ const init2 = async() => {
   }
 }
 
-init2();
-
-const options2 = ref([
-  {
-    value: '10',
-    label: '待上线',
-  },
-  {
-    value: '20',
-    label: '已上线',
-  },
-  {
-    value: '30',
-    label: '已下线',
-  },
-])
+init1();
 
 const init = async () => {
-  const res = await getPlayInfo({
+  const res = await getBlindInfo({
     id
   })
   if(res) {
     let formData = res.data;
-    formData.status = String(formData.status);
+    formData.state = String(formData.state);
     objData.formData = formData
   }
 }
@@ -106,21 +87,20 @@ init();
 const formRef = ref();
 
 const rules = {
-  goods_id: [{ required: true, message: '请选择', trigger: 'change' }],
-  status: [{ required: true, message: '请选择', trigger: 'change' }],
-  count: [{ required: true, message: '请输入', trigger: 'blur' }],
-  sort: [{ required: true, message: '请输入', trigger: 'blur' }],
-  desc: [{ required: true, message: '请输入', trigger: 'blur' }],
+  goods_id: [{ required: true, message: '请输入', trigger: 'change' }],
+  num: [{ required: true, message: '请输入', trigger: 'blur' }],
+  rate: [{ required: true, message: '请输入', trigger: 'blur' }],
+  overplus_num: [{ required: true, message: '请输入', trigger: 'blur' }],
+  state: [{ required: true, message: '请输入', trigger: 'change' }]
 };
 
 const objData = reactive<any>({
   formData:{
     goods_id: '0',
-    count: '1',
-    desc: '',
-    content: '',
-    sort: '0',
-    status: ''
+    num: '1',
+    rate: '1',
+    state: '1',
+    overplus_num: '1',
   }
 });
 
@@ -129,10 +109,10 @@ const onSubmit = () => {
   formRef.value
     .validate()
     .then(async () => {
-      const res = await updatePlayInfo({...objData.formData, id: id});
+      const res = await updateBlindInfo({...objData.formData, id: id});
       if(res) {
         createMessage.success('修改成功');
-        router.replace('/goods/compound');
+        router.replace('/playing/blind');
       }
     })
     .catch((error: any) => {
