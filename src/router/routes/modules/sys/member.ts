@@ -72,10 +72,28 @@ const member: AppRouteModule = {
       path: 'withdraw',
       name: 'MemberWithdraw',
       meta: {
-        title: '用户提现',
+        title: '账户B提现',
         ignoreKeepAlive: true,
       },
       component: () => import('/@/views/sys/member/withdraw/index.vue'),
+    },
+    {
+      path: 'awithdraw',
+      name: 'AMemberWithdraw',
+      meta: {
+        title: '账户A提现',
+        ignoreKeepAlive: true,
+      },
+      component: () => import('/@/views/sys/member/awithdraw/index.vue'),
+    },
+    {
+      path: 'asplit',
+      name: 'AMemberSplit',
+      meta: {
+        title: '账户A分账',
+        ignoreKeepAlive: true,
+      },
+      component: () => import('/@/views/sys/member/split/index.vue'),
     },
     {
       path: 'withdraw_detail/:id',

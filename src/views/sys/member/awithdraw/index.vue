@@ -23,14 +23,6 @@
         <span>{{ record.is_operate == 1 ? '操作':'未操作' }}</span>
       </template>
       <template #action="{ record }">
-        <!-- {
-            icon: 'ant-design:dollar-twotone',
-            tooltip: '退款',
-            popConfirm: {
-              title: '是否确认退款',
-              confirm: handleRefund.bind(null, record),
-            },
-          }, -->
         <TableAction :actions="[
           {
             icon: 'clarity:note-edit-line',
@@ -38,23 +30,13 @@
             onClick: handleEdit.bind(null, record),
           },
           {
-            icon: 'ant-design:delete-outlined',
-            color: 'error',
-            tooltip: '已操作',
+            icon: 'ant-design:dollar-twotone',
+            tooltip: '提现',
             popConfirm: {
-              title: '是否确认已操作',
-              confirm: handleDelete.bind(null, record),
+              title: '是否确认提现',
+              confirm: handleRefund.bind(null, record),
             },
-          },
-          {
-            icon: 'ant-design:delete-outlined',
-            color: 'error',
-            tooltip: '解冻退款',
-            popConfirm: {
-              title: '是否确认解冻退款',
-              confirm: handleDelete2.bind(null, record),
-            },
-          },
+          }
         ]" />
       </template>
     </BasicTable>
@@ -75,7 +57,7 @@ const go = useGo();
 console.log('%c [ go ]-43', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
-  title: 'B账户列表',
+  title: 'A账户列表',
   api: getUserBill,
   rowKey: 'id',
   columns,

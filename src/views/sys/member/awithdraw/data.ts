@@ -162,7 +162,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'account_type',
     label: '账户类型',
     component: 'Select',
-    defaultValue: '1',
+    defaultValue: '2',
     colProps: { span: 8 },
     componentProps: {
       options: [

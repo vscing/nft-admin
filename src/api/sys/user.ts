@@ -11,6 +11,9 @@ enum Api {
   getUserBill = '/userBill/getList',
   setOperate = '/userBill/setOperate',
   cancelOperate = '/userBill/cancelOperate',
+  walletWithdraw = '/userBill/walletWithdraw',
+  getSplitList = '/userBill/getSplitList',
+  setSplitOrder = '/userBill/setSplitOrder'
 }
 
 /**
@@ -48,3 +51,10 @@ export const getUserBill = (params: any) => defHttp.get<any>({ url: Api.getUserB
 export const setOperate = (data: any) => defHttp.post<any>({ url: Api.setOperate, data });
 
 export const cancelOperate = (data: any) => defHttp.post<any>({ url: Api.cancelOperate, data });
+
+export const walletWithdraw = (data: any) => defHttp.post<any>({ url: Api.walletWithdraw, data });
+
+export const getSplitList = (params: any) => defHttp.get<any>({ url: Api.getSplitList, params }); 
+
+export const setSplitOrder = (data: any) => defHttp.post<any>({ url: Api.setSplitOrder, data });
+
