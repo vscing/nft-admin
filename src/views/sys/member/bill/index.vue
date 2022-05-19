@@ -99,6 +99,8 @@ const getType = (status) => {
     text = '微信';
   } else if(status == 4){
     text = '余额支付';
+  } else if(status == 4){
+    text = '三方支付';
   }
   return text;  
 }

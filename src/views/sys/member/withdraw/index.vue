@@ -38,8 +38,16 @@
             onClick: handleEdit.bind(null, record),
           },
           {
-            icon: 'ant-design:delete-outlined',
-            color: 'error',
+            icon: 'ant-design:dollar-twotone',
+            tooltip: '提现',
+            popConfirm: {
+              title: '是否确认提现',
+              confirm: handleRefund.bind(null, record),
+            },
+          },
+          {
+            icon: 'ant-design:check-circle-twotone',
+            color: 'warn',
             tooltip: '已操作',
             popConfirm: {
               title: '是否确认已操作',
@@ -47,8 +55,8 @@
             },
           },
           {
-            icon: 'ant-design:delete-outlined',
-            color: 'error',
+            icon: 'ant-design:history-outlined',
+            color: 'warn',
             tooltip: '解冻退款',
             popConfirm: {
               title: '是否确认解冻退款',
@@ -92,7 +100,7 @@ const [registerTable, { reload, updateTableDataRecord }] = useTable({
     return info;
   },
   actionColumn: {
-    width: 120,
+    width: 150,
     title: '操作',
     dataIndex: 'action',
     slots: { customRender: 'action' },
