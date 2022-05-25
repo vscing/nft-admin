@@ -13,7 +13,8 @@ enum Api {
   cancelOperate = '/userBill/cancelOperate',
   walletWithdraw = '/userBill/walletWithdraw',
   getSplitList = '/userBill/getSplitList',
-  setSplitOrder = '/userBill/setSplitOrder'
+  setSplitOrder = '/userBill/setSplitOrder',
+  allOperation = '/userBill/allOperation',
 }
 
 /**
@@ -45,6 +46,8 @@ export function getPermCode() {
 export function doLogout() {
   return defHttp.get({ url: Api.Logout });
 }
+
+export const allOperation = (data: any) => defHttp.post<any>({ url: Api.allOperation, data });
 
 export const getUserBill = (params: any) => defHttp.get<any>({ url: Api.getUserBill, params });
 

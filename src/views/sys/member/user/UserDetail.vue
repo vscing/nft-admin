@@ -33,10 +33,16 @@
             <FormItem label="用户总金额" name="total_money">
               <Input v-model:value="formData.total_money" placeholder="请输入" />
             </FormItem>
-            <FormItem label="用户可用金额" name="use_money">
+            <FormItem label="B账户可用金额" name="use_money">
               <Input v-model:value="formData.use_money" placeholder="请输入" />
             </FormItem>
-            <FormItem label="用户冻结金额" name="freeze_money">
+            <FormItem label="B账户冻结金额" name="freeze_money">
+              <Input v-model:value="formData.freeze_money" placeholder="请输入" />
+            </FormItem>
+            <FormItem label="A账户可用金额" name="a_use_money">
+              <Input v-model:value="formData.use_money" placeholder="请输入" />
+            </FormItem>
+            <FormItem label="A账户冻结金额" name="a_freeze_money">
               <Input v-model:value="formData.freeze_money" placeholder="请输入" />
             </FormItem>
             <FormItem :wrapper-col="{ span: 14, offset: 4 }">

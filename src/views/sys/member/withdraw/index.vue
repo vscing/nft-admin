@@ -1,6 +1,11 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
+
+      <template #toolbar>
+        <Button type="primary" @click="allChange">批量操作</Button>
+      </template>
+
       <template #bill_type="{ record }">
         <span>{{ getBillType(record.bill_type)}}</span>
       </template>
@@ -47,7 +52,6 @@
           },
           {
             icon: 'ant-design:check-circle-twotone',
-            color: 'warn',
             tooltip: '已操作',
             popConfirm: {
               title: '是否确认已操作',
@@ -56,7 +60,6 @@
           },
           {
             icon: 'ant-design:history-outlined',
-            color: 'warn',
             tooltip: '解冻退款',
             popConfirm: {
               title: '是否确认解冻退款',
@@ -71,22 +74,29 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
+import { Button } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getUserBill, setOperate, cancelOperate, walletWithdraw } from '/@/api/sys/user';
+import { getUserBill, setOperate, cancelOperate, walletWithdraw, allOperation } from '/@/api/sys/user';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
 import { useGo } from '/@/hooks/web/usePage';
 import { columnToDateTime } from '/@/utils/dateUtil';
+import { useMessage } from '/@/hooks/web/useMessage';
+
+const { createMessage } = useMessage();
 
 const go = useGo();
 console.log('%c [ go ]-43', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
-const [registerTable, { reload, updateTableDataRecord }] = useTable({
+const [registerTable, { reload, updateTableDataRecord, getSelectRows }] = useTable({
   title: 'B账户列表',
   api: getUserBill,
   rowKey: 'id',
   columns,
+  rowSelection: {
+    type: 'checkbox',
+  },
   formConfig: {
     labelWidth: 120,
     schemas: searchFormSchema,
@@ -150,11 +160,22 @@ const getStatus = (status) => {
   }
   return text;  
 }
-
 // const handleCreate = () => {
 //   console.log('handleCreate')
 //   go('/goods/sell_add')
 // }
+
+const allChange = async() => {
+  const ids = getSelectRows().map(item => item.id);
+  const res = await allOperation({ids: ids})
+  console.log('%c [ res ]-170', 'font-size:13px; background:pink; color:#bf2c9f;', res)
+  createMessage.success(`成功${res[0]}个。失败${res[1]}个`);
+  if(res.data) {
+    reload();
+  } else {
+    reload();
+  }
+}
 
 function handleEdit(record: Recordable) {
   go('/member/withdraw_detail/'+record.user_id)
