@@ -90,6 +90,12 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
   },
   {
+    field: 'real_name',
+    label: '用户真实姓名',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
     field: 'bill_name',
     label: '账单名称',
     component: 'Input',
