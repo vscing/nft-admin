@@ -40,10 +40,10 @@
               <Input v-model:value="formData.freeze_money" placeholder="请输入" />
             </FormItem>
             <FormItem label="A账户可用金额" name="a_use_money">
-              <Input v-model:value="formData.use_money" placeholder="请输入" />
+              <Input v-model:value="formData.a_use_money" placeholder="请输入" />
             </FormItem>
             <FormItem label="A账户冻结金额" name="a_freeze_money">
-              <Input v-model:value="formData.freeze_money" placeholder="请输入" />
+              <Input v-model:value="formData.a_freeze_money" placeholder="请输入" />
             </FormItem>
             <FormItem :wrapper-col="{ span: 14, offset: 4 }">
               <Button style="margin-left: 10px" type="primary" @click="onSubmit">确定</Button>
@@ -113,6 +113,8 @@ const formData = reactive<any>({
   total_money: '0.00',
   use_money: '0.00',
   freeze_money: '0.00',
+  a_use_money: '0.00',
+  a_freeze_money: '0.00',
 });
 
 const onSubmit = () => {
@@ -153,6 +155,8 @@ const getInfo = async () => {
   formData.total_money = res.data?.total_money || 0;
   formData.use_money = res.data?.use_money || 0;
   formData.freeze_money = res.data?.freeze_money || 0;
+  formData.a_use_money = res.data?.a_use_money || 0;
+  formData.a_freeze_money = res.data?.a_freeze_money || 0;
   bankCardList.value = res.bankCardList;
   parentList.value = res.parentList;
   sonList.value = res.sonList
