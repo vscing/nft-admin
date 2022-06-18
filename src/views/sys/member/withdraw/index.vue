@@ -51,22 +51,31 @@
             },
           },
           {
+            icon: 'ant-design:dollar-twotone',
+            tooltip: '自动提现',
+            popConfirm: {
+              title: '是否自动提现',
+              confirm: handleAuto.bind(null, record),
+            },
+          },
+          {
             icon: 'ant-design:check-circle-twotone',
             tooltip: '已操作',
             popConfirm: {
               title: '是否确认已操作',
               confirm: handleDelete.bind(null, record),
             },
-          },
-          {
+          }
+        ]" />
+
+        <!-- {
             icon: 'ant-design:history-outlined',
             tooltip: '解冻退款',
             popConfirm: {
               title: '是否确认解冻退款',
               confirm: handleDelete2.bind(null, record),
             },
-          },
-        ]" />
+          }, -->
       </template>
     </BasicTable>
   </PageWrapper>
@@ -76,7 +85,7 @@ import { reactive } from 'vue';
 
 import { Button } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getUserBill, setOperate, cancelOperate, walletWithdraw, allOperation } from '/@/api/sys/user';
+import { getUserBill, setOperate, cancelOperate, walletWithdraw, allAutomaticWithdraw, automaticWithdraw } from '/@/api/sys/user';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -167,7 +176,7 @@ const getStatus = (status) => {
 
 const allChange = async() => {
   const ids = getSelectRows().map(item => item.id);
-  const res = await allOperation({ids: ids})
+  const res = await allAutomaticWithdraw({ids: ids})
   console.log('%c [ res ]-170', 'font-size:13px; background:pink; color:#bf2c9f;', res)
   createMessage.success(`成功${res[0]}个。失败${res[1]}个`);
   if(res.data) {
@@ -183,6 +192,15 @@ function handleEdit(record: Recordable) {
 
 const handleRefund = async(record: Recordable) => {
   const res = await walletWithdraw({id: record.id})
+    if(res.data) {
+      reload();
+    } else {
+      reload();
+    }
+} 
+
+const handleAuto = async(record: Recordable) => {
+  const res = await automaticWithdraw({id: record.id})
     if(res.data) {
       reload();
     } else {

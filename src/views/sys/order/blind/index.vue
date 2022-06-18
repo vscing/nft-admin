@@ -1,22 +1,16 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
-      <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增合成子规则</a-button>
+      <template #payment_type="{ record }">
+        <span>{{ getType(record.payment_type)}}</span>
       </template>
-      <template #goods_img="{ record }">
-        <AntImage
-          :width="53"
-          :src="record.goods_img"
-        />
-      </template>
-      <template #status="{ record }">
-        <span>{{ getStatusText(record.status)}}</span>
+      <template #is_special="{ record }">
+        <span>{{ record.is_special ? '一元盲盒' : '29.9盲盒'}}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
       </template>
-      <template #action="{ record }">
+      <!-- <template #action="{ record }">
         <TableAction :actions="[
           {
             icon: 'clarity:note-edit-line',
@@ -33,38 +27,27 @@
             },
           },
         ]" />
-      </template>
+      </template> -->
     </BasicTable>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
-import { Image as AntImage } from 'ant-design-vue';
-import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { useRoute } from 'vue-router';
-import { getPlayNeedList } from '/@/api/sys/goods';
+import { BasicTable, useTable } from '/@/components/Table';
+import { getBlindOrderList } from '/@/api/sys/order';
 import { PageWrapper } from '/@/components/Page';
-import { useMessage } from '/@/hooks/web/useMessage';
 
 import { columns, searchFormSchema } from './data';
 import { useGo } from '/@/hooks/web/usePage';
 import { columnToDateTime } from '/@/utils/dateUtil';
 
 const go = useGo();
-const { createMessage } = useMessage();
+console.log('%c [ go ]-43', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
-
-const route = useRoute();
-const { pid = 0 } = route.params || {};
-
-// , { reload, updateTableDataRecord }
-const [registerTable] = useTable({
-  title: '合成规则子列表',
-  api: getPlayNeedList,
-  searchInfo: {
-    play_id: pid
-  },
+const [registerTable, { reload, updateTableDataRecord }] = useTable({
+  title: '盲盒订单列表',
+  api: getBlindOrderList,
   rowKey: 'id',
   columns,
   formConfig: {
@@ -79,34 +62,42 @@ const [registerTable] = useTable({
     console.log('handleSearchInfoFn', info);
     return info;
   },
-  actionColumn: {
-    width: 120,
-    title: '操作',
-    dataIndex: 'action',
-    slots: { customRender: 'action' },
-  },
+  // actionColumn: {
+  //   width: 120,
+  //   title: '操作',
+  //   dataIndex: 'action',
+  //   slots: { customRender: 'action' },
+  // },
 });
 
-const getStatusText = (status) => {
+const getType = (status) => {
   let text = '';
-  if(status == 10) {
-    text = '已下线';
-  } else if(status == 20){
-    text = '已上线';
+  if(status == 1) {
+    text = '银行卡';
+  } else if(status == 2){
+    text = '支付宝';
+  } else if(status == 3){
+    text = '微信';
+  } else if(status == 4){
+    text = '余额支付';
+  } else if(status == 5){
+    text = 'A账户';
+  } else if(status == 6){
+    text = 'B账户';
   }
   return text;  
 }
 
-const handleCreate = () => {
-  go(`/playing/compound_sku_add/${pid}`)
-}
+// const handleCreate = () => {
+//   console.log('handleCreate')
+//   go('/goods/sell_add')
+// }
 
-function handleEdit(record: Recordable) {
-  go(`/playing/compound_sku_edit/${record.id}/${pid}`)
-}
+// function handleEdit(record: Recordable) {
+//   console.log(record);
+// }
 
-function handleDelete(record: Recordable) {
-  console.log(record);
-  createMessage.warning('暂不能删除');
-}
+// function handleDelete(record: Recordable) {
+//   console.log(record);
+// }
 </script>

@@ -1,28 +1,20 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
-      <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增合成子规则</a-button>
-      </template>
-      <template #goods_img="{ record }">
+      <template #logo="{ record }">
         <AntImage
           :width="53"
-          :src="record.goods_img"
+          :src="record.logo"
         />
       </template>
       <template #status="{ record }">
-        <span>{{ getStatusText(record.status)}}</span>
+        <span>{{ record.status == 1 ? '上架':'下架' }}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
       </template>
       <template #action="{ record }">
         <TableAction :actions="[
-          {
-            icon: 'clarity:note-edit-line',
-            tooltip: '编辑',
-            onClick: handleEdit.bind(null, record),
-          },
           {
             icon: 'ant-design:delete-outlined',
             color: 'error',
@@ -42,29 +34,22 @@ import { reactive } from 'vue';
 
 import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { useRoute } from 'vue-router';
-import { getPlayNeedList } from '/@/api/sys/goods';
+import { getCouponList, delCoupon } from '/@/api/sys/other';
 import { PageWrapper } from '/@/components/Page';
-import { useMessage } from '/@/hooks/web/useMessage';
 
 import { columns, searchFormSchema } from './data';
 import { useGo } from '/@/hooks/web/usePage';
 import { columnToDateTime } from '/@/utils/dateUtil';
+import { useMessage } from '/@/hooks/web/useMessage';
+
+const { createMessage } = useMessage();
 
 const go = useGo();
-const { createMessage } = useMessage();
+console.log('%c [ go ]-43', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
-
-const route = useRoute();
-const { pid = 0 } = route.params || {};
-
-// , { reload, updateTableDataRecord }
-const [registerTable] = useTable({
-  title: '合成规则子列表',
-  api: getPlayNeedList,
-  searchInfo: {
-    play_id: pid
-  },
+const [registerTable, { reload }] = useTable({
+  title: '用户优惠券列表',
+  api: getCouponList,
   rowKey: 'id',
   columns,
   formConfig: {
@@ -87,26 +72,13 @@ const [registerTable] = useTable({
   },
 });
 
-const getStatusText = (status) => {
-  let text = '';
-  if(status == 10) {
-    text = '已下线';
-  } else if(status == 20){
-    text = '已上线';
+const handleDelete = async(record: Recordable) => {
+  const res = await delCoupon({id: record.id});
+  if(res) {
+    createMessage.success('成功');
+  } else {
+    createMessage.success('失败');
   }
-  return text;  
-}
-
-const handleCreate = () => {
-  go(`/playing/compound_sku_add/${pid}`)
-}
-
-function handleEdit(record: Recordable) {
-  go(`/playing/compound_sku_edit/${record.id}/${pid}`)
-}
-
-function handleDelete(record: Recordable) {
-  console.log(record);
-  createMessage.warning('暂不能删除');
+  reload();
 }
 </script>

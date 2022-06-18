@@ -36,6 +36,14 @@
               title: '是否确认提现',
               confirm: handleRefund.bind(null, record),
             },
+          },
+          {
+            icon: 'ant-design:dollar-twotone',
+            tooltip: '自动提现',
+            popConfirm: {
+              title: '是否自动提现',
+              confirm: handleAuto.bind(null, record),
+            },
           }
         ]" />
       </template>
@@ -46,7 +54,7 @@
 import { reactive } from 'vue';
 
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getUserBill, setOperate, cancelOperate, walletWithdraw } from '/@/api/sys/user';
+import { getUserBill, setOperate, cancelOperate, walletWithdraw, automaticWithdraw } from '/@/api/sys/user';
 import { PageWrapper } from '/@/components/Page';
 
 import { columns, searchFormSchema } from './data';
@@ -143,25 +151,34 @@ const handleRefund = async(record: Recordable) => {
     }
 } 
 
-const handleDelete = async(record: Recordable) => {
-  const res = await setOperate({id: record.id})
+const handleAuto = async(record: Recordable) => {
+  const res = await automaticWithdraw({id: record.id})
     if(res.data) {
-      record.is_operate = 2;
-      const result = updateTableDataRecord(record.id, record);
-      console.log(result);
+      reload();
     } else {
       reload();
     }
-}
+} 
 
-const handleDelete2 = async(record: Recordable) => {
-  const res = await cancelOperate({id: record.id})
-    if(res.data) {
-      record.is_operate = 2;
-      const result = updateTableDataRecord(record.id, record);
-      console.log(result);
-    } else {
-      reload();
-    }
-}
+// const handleDelete = async(record: Recordable) => {
+//   const res = await setOperate({id: record.id})
+//     if(res.data) {
+//       record.is_operate = 2;
+//       const result = updateTableDataRecord(record.id, record);
+//       console.log(result);
+//     } else {
+//       reload();
+//     }
+// }
+
+// const handleDelete2 = async(record: Recordable) => {
+//   const res = await cancelOperate({id: record.id})
+//     if(res.data) {
+//       record.is_operate = 2;
+//       const result = updateTableDataRecord(record.id, record);
+//       console.log(result);
+//     } else {
+//       reload();
+//     }
+// }
 </script>

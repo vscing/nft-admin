@@ -50,8 +50,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '已上线', value: '10' },
-        { label: '已下线', value: '20' },
+        { label: '已下线', value: '10' },
+        { label: '已上线', value: '20' },
       ],
     },
     colProps: { span: 8 },

@@ -15,6 +15,15 @@ const playing: AppRouteModule = {
   },
   children: [
     {
+      path: 'canteen',
+      name: 'PlayingCanteen',
+      meta: {
+        title: '餐饮列表',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/playing/canteen/index.vue'),
+    },
+    {
       path: 'compound',
       name: 'PlayingCompound',
       meta: {

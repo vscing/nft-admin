@@ -6,6 +6,7 @@ enum Api {
   UpdateState = '/user/updateState',
   UpdatePrice = '/user/updatePrice',
   OnGrant = '/user/onGrant',
+  addBlindSku = '/user/addBlindSku',
 
   getPrizeList = '/prize/getList',
   setUserPrize = '/prize/setUserPrize',
@@ -27,3 +28,5 @@ export const updateState = (id: number, state: number) => defHttp.post<any>({ ur
 export const updatePrice = (data: any) => defHttp.post<any>({ url: Api.UpdatePrice, data});
 
 export const OnGrant = (data: any) => defHttp.post<any>({ url: Api.OnGrant, data});
+
+export const addBlindSku = (data: any) => defHttp.post<any>({ url: Api.addBlindSku, data});

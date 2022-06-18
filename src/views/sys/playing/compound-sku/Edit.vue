@@ -71,11 +71,11 @@ init2();
 const options2 = ref([
   {
     value: '10',
-    label: '已上线',
+    label: '已下线',
   },
   {
     value: '20',
-    label: '已下线',
+    label: '已上线',
   },
 ])
 

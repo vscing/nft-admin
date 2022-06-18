@@ -48,6 +48,30 @@ const member: AppRouteModule = {
       component: () => import('/@/views/sys/member/user/Grant.vue'),
     },
     {
+      path: 'user_blind/:id',
+      name: 'UserBlind',
+      meta: {
+        hideMenu: true,
+        title: '会员盲盒',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/member/user',
+      },
+      component: () => import('/@/views/sys/member/user/Blind.vue'),
+    },
+    {
+      path: 'user_coupon/:id',
+      name: 'UserCoupon',
+      meta: {
+        hideMenu: true,
+        title: '会员优惠券',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/member/user',
+      },
+      component: () => import('/@/views/sys/member/user/Coupon.vue'),
+    },
+    {
       path: 'bill',
       name: 'MemberBill',
       meta: {
@@ -115,6 +139,15 @@ const member: AppRouteModule = {
         ignoreKeepAlive: false,
       },
       component: () => import('/@/views/sys/member/draw/index.vue'),
+    },
+    {
+      path: 'coupon',
+      name: 'MemberCoupon',
+      meta: {
+        title: '用户优惠券',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/member/coupon/index.vue'),
     },
   ],
 };

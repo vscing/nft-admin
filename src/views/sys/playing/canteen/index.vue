@@ -1,17 +1,8 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
-      <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增合成子规则</a-button>
-      </template>
-      <template #goods_img="{ record }">
-        <AntImage
-          :width="53"
-          :src="record.goods_img"
-        />
-      </template>
-      <template #status="{ record }">
-        <span>{{ getStatusText(record.status)}}</span>
+      <template #is_chain="{ record }">
+        <span>{{ record.is_chain == 1 ? '是' : '否' }}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
@@ -40,31 +31,20 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
-import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { useRoute } from 'vue-router';
-import { getPlayNeedList } from '/@/api/sys/goods';
 import { PageWrapper } from '/@/components/Page';
-import { useMessage } from '/@/hooks/web/useMessage';
 
 import { columns, searchFormSchema } from './data';
 import { useGo } from '/@/hooks/web/usePage';
 import { columnToDateTime } from '/@/utils/dateUtil';
+import { getRestaurantList } from '/@/api/sys/other';
 
 const go = useGo();
-const { createMessage } = useMessage();
+console.log('%c [ go ]-50', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
-
-const route = useRoute();
-const { pid = 0 } = route.params || {};
-
-// , { reload, updateTableDataRecord }
-const [registerTable] = useTable({
-  title: '合成规则子列表',
-  api: getPlayNeedList,
-  searchInfo: {
-    play_id: pid
-  },
+const [registerTable, { }] = useTable({
+  title: '餐饮列表',
+  api: getRestaurantList,
   rowKey: 'id',
   columns,
   formConfig: {
@@ -76,37 +56,27 @@ const [registerTable] = useTable({
   showTableSetting: true,
   bordered: true,
   handleSearchInfoFn(info) {
+    if(info.time && info.time.length > 1) {
+      info.startTime = info.time[0];
+      info.endTime = info.time[1];
+    }
+    
+    delete info.time;
     console.log('handleSearchInfoFn', info);
     return info;
   },
-  actionColumn: {
-    width: 120,
-    title: '操作',
-    dataIndex: 'action',
-    slots: { customRender: 'action' },
-  },
+  // actionColumn: {
+  //   width: 120,
+  //   title: '操作',
+  //   dataIndex: 'action',
+  //   slots: { customRender: 'action' },
+  // },
 });
 
-const getStatusText = (status) => {
-  let text = '';
-  if(status == 10) {
-    text = '已下线';
-  } else if(status == 20){
-    text = '已上线';
-  }
-  return text;  
-}
-
-const handleCreate = () => {
-  go(`/playing/compound_sku_add/${pid}`)
-}
-
-function handleEdit(record: Recordable) {
-  go(`/playing/compound_sku_edit/${record.id}/${pid}`)
-}
-
-function handleDelete(record: Recordable) {
-  console.log(record);
-  createMessage.warning('暂不能删除');
-}
+// const handleDelete = async(record: Recordable) => {
+//   const res = await delArticleInfo(record.id);
+//   if(res) {
+//     reload()
+//   }
+// }
 </script>

@@ -139,6 +139,11 @@ export const bankCardColumns: any[] = [
     dataIndex: 'phone',
     width: 120,
   },
+  {
+    title: '是否默认',
+    dataIndex: 'is_default',
+    width: 120,
+  },
 ];
 
 export const userColumns: any[] = [

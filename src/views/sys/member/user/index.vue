@@ -44,7 +44,7 @@
       return info;
     },
     actionColumn: {
-      width: 120,
+      width: 180,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -63,7 +63,17 @@
         icon: 'ant-design:retweet-outlined',
         tooltip: '空投',
         onClick: handleGrant.bind(null, record),
-      }
+      },
+      {
+        icon: 'ant-design:retweet-outlined',
+        tooltip: '发放盲盒',
+        onClick: handleBlind.bind(null, record),
+      },
+      {
+        icon: 'ant-design:retweet-outlined',
+        tooltip: '发放优惠券',
+        onClick: handleCoupon.bind(null, record),
+      },
     ];
     if(record.state) {
       action.push({
@@ -110,4 +120,15 @@
   const handleGrant = (record: Recordable) => {
     go('/member/user_grant/' + record.id);
   } 
+
+  // 盲盒
+  const handleBlind = (record: Recordable) => {
+    go('/member/user_blind/' + record.id);
+  } 
+
+  // 优惠券
+  const handleCoupon = (record: Recordable) => {
+    go('/member/user_coupon/' + record.id);
+  }
+  
 </script>

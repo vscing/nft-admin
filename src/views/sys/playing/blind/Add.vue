@@ -16,6 +16,9 @@
       <FormItem label="中奖概率" name="rate">
         <Input v-model:value="formData.rate" placeholder="请输入中奖概率" suffix="%" />
       </FormItem>
+      <FormItem label="描述" name="desc">
+        <Tinymce v-model:value="formData.desc" @change="(value) => formData.desc = value" />
+      </FormItem>
       <FormItem label="奖品状态">
         <Select
           v-model:value="formData.state"
@@ -39,6 +42,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { PageWrapper } from '/@/components/Page';
 import { Form, FormItem, Input, Button, Select, SelectOption } from 'ant-design-vue';
+import { Tinymce } from '/@/components/Tinymce/index';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { getGoodsAll, addBlindInfo } from '/@/api/sys/goods';
 
@@ -56,6 +60,7 @@ const rules = {
   num: [{ required: true, message: '请输入', trigger: 'blur' }],
   rate: [{ required: true, message: '请输入', trigger: 'blur' }],
   state: [{ required: true, message: '请输入', trigger: 'change' }],
+  desc: [{ required: true, message: '请输入', trigger: 'blur' }],
 };
 
 const formData = reactive<any>({
@@ -63,6 +68,7 @@ const formData = reactive<any>({
   num: '1',
   rate: '1',
   state: '1',
+  desc: '',
 });
 
 const options = ref([

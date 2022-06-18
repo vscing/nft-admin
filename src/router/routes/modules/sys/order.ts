@@ -39,7 +39,7 @@ const order: AppRouteModule = {
       path: 'market',
       name: 'OrderMarket',
       meta: {
-        title: '市场订单',
+        title: '藏品订单',
         ignoreKeepAlive: false,
       },
       component: () => import('/@/views/sys/order/market/index.vue'),
@@ -49,14 +49,34 @@ const order: AppRouteModule = {
       name: 'OrderMarketDetail',
       meta: {
         hideMenu: true,
-        title: '市场订单详情',
+        title: '藏品订单详情',
         ignoreKeepAlive: true,
         showMenu: false,
         currentActiveMenu: '/order/market',
       },
       component: () => import('/@/views/sys/order/market/Detail.vue'),
     },
-
+    {
+      path: 'blind',
+      name: 'OrderBlind',
+      meta: {
+        title: '盲盒订单',
+        ignoreKeepAlive: false,
+      },
+      component: () => import('/@/views/sys/order/blind/index.vue'),
+    },
+    {
+      path: 'blind_detail/:id',
+      name: 'OrderBlindDetail',
+      meta: {
+        hideMenu: true,
+        title: '盲盒订单详情',
+        ignoreKeepAlive: true,
+        showMenu: false,
+        currentActiveMenu: '/order/blind',
+      },
+      component: () => import('/@/views/sys/order/blind/Detail.vue'),
+    },
     {
       path: 'compound',
       name: 'OrderCompound',

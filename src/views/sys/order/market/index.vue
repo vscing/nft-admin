@@ -43,7 +43,7 @@ const go = useGo();
 console.log('%c [ go ]-43', 'font-size:13px; background:pink; color:#bf2c9f;', go)
 const searchInfo = reactive<Recordable>({});
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
-  title: '市场订单列表',
+  title: '藏品订单列表',
   api: getMarketOrderList,
   rowKey: 'id',
   columns,
@@ -77,6 +77,10 @@ const getType = (status) => {
     text = '微信';
   } else if(status == 4){
     text = '余额支付';
+  } else if(status == 5){
+    text = 'A账户';
+  } else if(status == 6){
+    text = 'B账户';
   }
   return text;  
 }

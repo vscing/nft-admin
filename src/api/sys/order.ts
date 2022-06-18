@@ -3,6 +3,7 @@ import { defHttp } from '/@/utils/http/axios';
 enum Api {
   getSellOrderList = '/order/getList?is_first=1',
   getMarketOrderList = '/order/getList?is_first=0',
+  getBlindOrderList = '/orderBlind/getList',
 
   getPlayOrderList = '/orderPlay/getList',
   getApiAuthList = '/apiAuth/getList',
@@ -10,6 +11,7 @@ enum Api {
 
 export const getSellOrderList = (params: any) => defHttp.get<any>({ url: Api.getSellOrderList, params });
 export const getMarketOrderList = (params: any) => defHttp.get<any>({ url: Api.getMarketOrderList, params });
+export const getBlindOrderList = (params: any) => defHttp.get<any>({ url: Api.getBlindOrderList, params });
 
 export const getPlayOrderList = (params: any) => defHttp.get<any>({ url: Api.getPlayOrderList, params });
 

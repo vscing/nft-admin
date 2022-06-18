@@ -15,6 +15,8 @@ enum Api {
   getSplitList = '/userBill/getSplitList',
   setSplitOrder = '/userBill/setSplitOrder',
   allOperation = '/userBill/allOperation',
+  automaticWithdraw = '/userBill/automaticWithdraw',
+  allAutomaticWithdraw = '/userBill/allAutomaticWithdraw',
 }
 
 /**
@@ -60,4 +62,8 @@ export const walletWithdraw = (data: any) => defHttp.post<any>({ url: Api.wallet
 export const getSplitList = (params: any) => defHttp.get<any>({ url: Api.getSplitList, params }); 
 
 export const setSplitOrder = (data: any) => defHttp.post<any>({ url: Api.setSplitOrder, data });
+
+export const automaticWithdraw = (data: any) => defHttp.post<any>({ url: Api.automaticWithdraw, data });
+
+export const allAutomaticWithdraw = (data: any) => defHttp.post<any>({ url: Api.allAutomaticWithdraw, data });
 
