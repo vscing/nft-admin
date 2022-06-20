@@ -18,6 +18,12 @@
       <template #status="{ record }">
         <span>{{ getStatus(record.status)}}</span>
       </template>
+      <template #is_automatic="{ record }">
+        <span>{{ record.is_automatic == 1 ? '自动':'手动'}}</span>
+      </template>
+      <template #operate_status="{ record }">
+        <span>{{ record.operate_status == 2 ? '打款异常':'打款正常'}}</span>
+      </template>
       <!-- <template #bank_card="{ record }">
         <span>{{ JSON.stringify(record.bankCard)}}</span>
       </template> -->

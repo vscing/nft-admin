@@ -69,6 +69,23 @@ export const columns: BasicColumn[] = [
     slots: { customRender: 'is_operate' },
   },
   {
+    title: '打款方式',
+    dataIndex: 'is_automatic',
+    width: 120,
+    slots: { customRender: 'is_automatic' },
+  },
+  {
+    title: '打款状态',
+    dataIndex: 'operate_status',
+    width: 120,
+    slots: { customRender: 'operate_status' },
+  },
+  {
+    title: '异常原因',
+    dataIndex: 'operate_info',
+    width: 120,
+  },
+  {
     title: '创建时间',
     dataIndex: 'createTime',
     width: 180,

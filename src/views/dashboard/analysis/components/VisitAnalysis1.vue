@@ -63,7 +63,7 @@
       series: [
         {
           smooth: true,
-          data: [...res.orderDayList],
+          data: [...res.putDayList],
           type: 'line',
           areaStyle: {},
           itemStyle: {
