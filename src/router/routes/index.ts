@@ -10,7 +10,7 @@ const modules = import.meta.globEager('./modules/**/*.ts');
 
 const routeModuleList: AppRouteModule[] = [];
 
-const arr = ['Dashboard', 'Member', 'System', 'Content', 'Goods', 'Order', 'Playing'];
+const arr = ['Dashboard', 'Member', 'System', 'Content', 'Goods', 'Order', 'Playing', 'Activity'];
 
 Object.keys(modules).forEach((key) => {
   const mod = modules[key].default || {};
