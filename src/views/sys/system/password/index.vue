@@ -15,6 +15,14 @@
   import { BasicForm, useForm } from '/@/components/Form';
 
   import { formSchema } from './pwd.data';
+  import { setUserInfo } from '/@/api/sys/user';
+
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useUserStore } from '/@/store/modules/user';
+
+  const { createMessage } = useMessage();
+  const userStore = useUserStore();
+
   export default defineComponent({
     name: 'ChangePassword',
     components: { BasicForm, PageWrapper },
@@ -30,9 +38,18 @@
         try {
           const values = await validate();
           const { passwordOld, passwordNew } = values;
-
-          // TODO custom api
           console.log(passwordOld, passwordNew);
+          const res = await setUserInfo({
+            passwordOld,
+            passwordNew
+          });
+          if(res) {
+            createMessage.success('修改成功');
+            userStore.logout(true);
+          } else {
+            createMessage.error('修改失败');
+          }
+          
           // const { router } = useRouter();
           // router.push(pageEnum.BASE_LOGIN);
         } catch (error) {}
