@@ -18,6 +18,9 @@
       <FormItem label="轮播图URL">
         <Input v-model:value="formData.url" placeholder="请输入" />
       </FormItem>
+      <FormItem label="关联内容ID">
+        <Input v-model:value="formData.article_id" placeholder="请输入" />
+      </FormItem>
       <FormItem label="轮播图简介">
         <Input.TextArea v-model:value="formData.desc" :rows="5" placeholder="请输入" />
       </FormItem>

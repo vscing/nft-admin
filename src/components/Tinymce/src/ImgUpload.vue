@@ -5,6 +5,7 @@
       multiple
       @change="handleChange"
       :action="uploadUrl"
+      :headers="headers"
       :showUploadList="false"
       accept=".jpg,.jpeg,.gif,.png,.webp"
     >
@@ -15,12 +16,13 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent, computed, ref } from 'vue';
 
   import { Upload } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
+  import { getToken } from '/@/utils/auth';
 
   export default defineComponent({
     name: 'TinymceImageUpload',
@@ -38,9 +40,13 @@
     setup(props, { emit }) {
       let uploading = false;
 
+      const token = getToken();
       const { uploadUrl } = useGlobSetting();
       const { t } = useI18n();
       const { prefixCls } = useDesign('tinymce-img-upload');
+      const headers = ref({
+        Authorization: `Bearer ${token}`
+      })
 
       const getButtonProps = computed(() => {
         const { disabled } = props;
@@ -75,6 +81,7 @@
         uploadUrl,
         t,
         getButtonProps,
+        headers
       };
     },
   });
