@@ -2,22 +2,34 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增发售商品</a-button>
+        <a-button type="primary" @click="handleCreate">注册店铺</a-button>
       </template>
-      <template #img="{ record }">
+      <template #avatar="{ record }">
         <AntImage
           :width="53"
-          :src="record.img"
+          :src="record.avatar"
         />
       </template>
-      <template #status="{ record }">
-        <span>{{ getStatusText(record.status)}}</span>
+      <template #is_new="{ record }">
+        <span>{{ record.is_new == 1 ? '新':'旧'}}</span>
       </template>
-      <template #presell_time="{ record }">
-        <span>{{ columnToDateTime(record.presell_time) }}</span>
+      <template #is_chain="{ record }">
+        <span>{{ record.is_chain == 1 ? '连锁':'非连锁' }}</span>
+      </template>
+      <template #is_hot="{ record }">
+        <span>{{ record.is_hot == 1 ? '热门':'非热门' }}</span>
+      </template>
+      <template #state="{ record }">
+        <span>{{ record.state == 1 ? '正常':'禁用' }}</span>
+      </template>
+      <template #status="{ record }">
+        <span>{{ record.status == 1 ? '开店':'待审核' }}</span>
       </template>
       <template #created_at="{ record }">
         <span>{{ columnToDateTime(record.created_at) }}</span>
+      </template>
+      <template #updated_at="{ record }">
+        <span>{{ columnToDateTime(record.updated_at) }}</span>
       </template>
       <template #action="{ record }">
         <TableAction :actions="[
@@ -27,12 +39,21 @@
             onClick: handleEdit.bind(null, record),
           },
           {
-            icon: 'ant-design:delete-outlined',
+            icon: 'ant-design:question-circle-filled',
             color: 'error',
-            tooltip: '删除',
+            tooltip: `${record.state == 1 ? '禁用':'解禁'}`,
             popConfirm: {
-              title: '是否确认删除',
-              confirm: handleDelete.bind(null, record),
+              title: `是否确认${record.state == 1 ? '禁用':'解禁'}`,
+              confirm: handleState.bind(null, record),
+            },
+          },
+          {
+            icon: 'ant-design:question-circle-filled',
+            color: 'error',
+            tooltip: `${record.status == 1 ? '审核不通过':'审核通过'}`,
+            popConfirm: {
+              title: `是否确认${record.status == 1 ? '审核不通过':'审核通过'}`,
+              confirm: handleStatus.bind(null, record),
             },
           },
         ]" />
@@ -45,7 +66,7 @@ import { reactive } from 'vue';
 
 import { Image as AntImage } from 'ant-design-vue';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
-import { getGoodsList } from '/@/api/sys/goods';
+import { getShopList, setStatus, setState } from '/@/api/sys/shop';
 import { PageWrapper } from '/@/components/Page';
 import { useMessage } from '/@/hooks/web/useMessage';
 
@@ -57,9 +78,9 @@ const go = useGo();
 const { createMessage } = useMessage();
 const searchInfo = reactive<Recordable>({});
 // , { reload, updateTableDataRecord }
-const [registerTable] = useTable({
-  title: '预售产品列表',
-  api: getGoodsList,
+const [registerTable,{ reload, updateTableDataRecord }] = useTable({
+  title: '店铺列表',
+  api: getShopList,
   rowKey: 'id',
   columns,
   formConfig: {
@@ -82,30 +103,43 @@ const [registerTable] = useTable({
   },
 });
 
-const getStatusText = (status) => {
-  let text = '';
-  if(status == 10) {
-    text = '待上架';
-  } else if(status == 20){
-    text = '预售中';
-  } else if(status == 30){
-    text = '售卖中';
-  } else if(status == 40){
-    text = '已售罄';
-  }
-  return text;  
-}
-
 const handleCreate = () => {
-  go('/goods/sell_add')
+  go('/shop/store_add')
 }
 
 function handleEdit(record: Recordable) {
-  go(`/goods/sell_edit/${record.id}`)
+  go(`/shop/store_edit/${record.id}`)
 }
 
-function handleDelete(record: Recordable) {
-  console.log(record);
-  createMessage.warning('暂不能删除');
+async function handleState(record: Recordable) {
+  const res = await setStatus({
+    id: record.id, 
+    state: record.state == 1 ? 0:1, 
+  })
+  if(res.data) {
+    createMessage.success('操作成功');
+    record.state = record.state == 1 ? 0:1;
+    const result = updateTableDataRecord(record.id, record);
+    console.log(result);
+  } else {
+    createMessage.error('操作失败');
+    reload();
+  }
+}
+
+async function handleStatus(record: Recordable) {
+  const res = await setState({
+    id: record.id, 
+    status: record.status == 1 ? 0:1
+  })
+  if(res.data) {
+    createMessage.success('操作成功');
+    record.status = record.status == 1 ? 0:1;
+    const result = updateTableDataRecord(record.id, record);
+    console.log(result);
+  } else {
+    createMessage.error('操作失败');
+    reload();
+  }
 }
 </script>

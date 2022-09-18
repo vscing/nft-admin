@@ -3,75 +3,111 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '商品名称',
-    dataIndex: 'title',
+    title: 'ID',
+    dataIndex: 'id',
     width: 120,
   },
   {
-    title: '封面图',
-    dataIndex: 'img',
-    width: 120,
-    slots: { customRender: 'img' },
-  },
-  {
-    title: '商品金额',
-    dataIndex: 'price',
+    title: '上级ID',
+    dataIndex: 'pid',
     width: 120,
   },
   {
-    title: '商品库存',
-    dataIndex: 'stock',
+    title: '手机号',
+    dataIndex: 'phone',
     width: 120,
   },
   {
-    title: '商品预售时间',
-    dataIndex: 'presell_time',
+    title: '店铺名称',
+    dataIndex: 'nickname',
     width: 120,
-    slots: { customRender: 'presell_time' },
   },
   {
-    title: '状态',
+    title: '门店主图',
+    dataIndex: 'avatar',
+    width: 120,
+    slots: { customRender: 'avatar' },
+  },
+  {
+    title: '店内电话',
+    dataIndex: 'shop_phone',
+    width: 120,
+  },
+  {
+    title: '店铺分类',
+    dataIndex: 'category',
+    width: 120,
+  },
+  {
+    title: '省',
+    dataIndex: 'province',
+    width: 120,
+  },
+  {
+    title: '市',
+    dataIndex: 'city',
+    width: 120,
+  },
+  {
+    title: '区',
+    dataIndex: 'area',
+    width: 120,
+  },
+  {
+    title: '新旧状态',
+    dataIndex: 'is_new',
+    width: 120,
+    slots: { customRender: 'is_new' },
+  },
+  {
+    title: '连锁状态',
+    dataIndex: 'is_chain',
+    width: 120,
+    slots: { customRender: 'is_chain' },
+  },
+  {
+    title: '热门状态',
+    dataIndex: 'is_hot',
+    width: 120,
+    slots: { customRender: 'is_hot' },
+  },
+  {
+    title: '用户状态',
+    dataIndex: 'state',
+    width: 120,
+    slots: { customRender: 'state' },
+  },
+  {
+    title: '店铺状态',
     dataIndex: 'status',
     width: 120,
     slots: { customRender: 'status' },
   },
   {
-    title: '商品预售总数',
-    dataIndex: 'total_stock',
-    width: 120,
-  },
-  {
-    title: '排序',
-    dataIndex: 'sort',
-    width: 120,
-  },
-  {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'created_at',
     width: 180,
     slots: { customRender: 'created_at' },
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updated_at',
+    width: 180,
+    slots: { customRender: 'updated_at' },
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'title',
-    label: '商品名称',
+    field: 'phone',
+    label: '手机号',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'status',
-    label: '商品状态',
-    component: 'Select',
-    componentProps: {
-      options: [
-        { label: '待上架', value: '10' },
-        { label: '预售中', value: '20' },
-        { label: '售卖中', value: '30' },
-        { label: '已售罄', value: '40' },
-      ],
-    },
+    field: 'nickname',
+    label: '店铺名称',
+    component: 'Input',
     colProps: { span: 8 },
-  },
+  }
 ];
